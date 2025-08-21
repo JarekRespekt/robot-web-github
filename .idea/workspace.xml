@@ -34,7 +34,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/user/Desktop/Web ROBOT 2.0/robot-web",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -62,7 +62,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755540834056</updated>
       <workItem from="1755540835464" duration="138000" />
-      <workItem from="1755797375439" duration="5859000" />
+      <workItem from="1755797375439" duration="7377000" />
     </task>
     <servers />
   </component>
