@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4ee55c0f-133d-40d3-92fd-b8afd891f994" name="Changes" comment="procfile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755540834056</updated>
       <workItem from="1755540835464" duration="138000" />
-      <workItem from="1755797375439" duration="13206000" />
+      <workItem from="1755797375439" duration="13932000" />
     </task>
     <task id="LOCAL-00001" summary="procfile">
       <option name="closed" value="true" />
