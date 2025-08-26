@@ -1,1 +1,1 @@
-web: npm --prefix apps/web run start -p $PORT
+web: npm run start --workspace=apps/web
