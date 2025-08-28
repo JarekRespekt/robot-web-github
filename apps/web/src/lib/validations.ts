@@ -25,7 +25,7 @@ export const updateTaskSchema = z.object({
     .optional(),
   status: z
     .enum(["new", "in_progress", "done", "failed"], {
-      errorMap: () => ({ message: "Невірний статус завдання" }),
+      message: "Невірний статус завдання",
     })
     .optional(),
 });
