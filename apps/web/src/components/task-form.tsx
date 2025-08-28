@@ -60,7 +60,7 @@ export function TaskForm({ open, onOpenChange, task, mode = 'create' }: TaskForm
     onError: (error) => {
       toast({
         title: 'Помилка',
-        description: error.message || 'Не вдалося створити завдання',
+        description: `Не вдалося створити завдання`,
         variant: 'destructive',
       });
     },
