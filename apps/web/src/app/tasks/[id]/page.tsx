@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { StatusBadge } from '@/components/status-badge';
 import { TaskDetailClient } from './task-detail-client';
 import { ArrowLeft } from 'lucide-react';
 
 interface TaskDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function TaskDetailPage({ params }: TaskDetailPageProps) {
+export default async function TaskDetailPage({ params }: TaskDetailPageProps) {
+  const { id } = await params;
+
   return (
     <div className="container mx-auto py-8 max-w-4xl">
       <div className="space-y-6">
@@ -24,7 +24,7 @@ export default function TaskDetailPage({ params }: TaskDetailPageProps) {
         </div>
 
         {/* Task Detail Content */}
-        <TaskDetailClient taskId={params.id} />
+        <TaskDetailClient taskId={id} />
       </div>
     </div>
   );
