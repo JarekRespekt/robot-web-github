@@ -306,7 +306,7 @@ export function useUpdateItemAvailability(
 ) {
   const queryClient = useQueryClient();
   
-  return useMutation<Item, Error, { id: string; available: boolean }, { previousItem: Item | undefined }>({
+  return useMutation({
     mutationFn: async ({ id, available }: { id: string; available: boolean }) => {
       const response = await robotApi.updateItemAvailability(id, available);
       if (!response.success || !response.data) {
@@ -314,28 +314,8 @@ export function useUpdateItemAvailability(
       }
       return response.data;
     },
-    onMutate: async ({ id, available }) => {
-      // Optimistic update
-      await queryClient.cancelQueries({ queryKey: robotQueryKeys.item(id) });
-      const previousItem = queryClient.getQueryData<Item>(robotQueryKeys.item(id));
-      
-      if (previousItem) {
-        queryClient.setQueryData(robotQueryKeys.item(id), {
-          ...previousItem,
-          available,
-        });
-      }
-      
-      return { previousItem };
-    },
-    onError: (err, { id }, context) => {
-      // Rollback on error
-      if (context?.previousItem) {
-        queryClient.setQueryData(robotQueryKeys.item(id), context.previousItem);
-      }
-    },
-    onSettled: (_, __, { id }) => {
-      queryClient.invalidateQueries({ queryKey: robotQueryKeys.item(id) });
+    onSuccess: (data) => {
+      queryClient.setQueryData(robotQueryKeys.item(data.id), data);
       queryClient.invalidateQueries({ queryKey: ['robot', 'items'] });
     },
     ...options,
