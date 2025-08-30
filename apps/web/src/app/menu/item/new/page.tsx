@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -37,7 +37,7 @@ const createItemSchema = z.object({
 
 type FormData = z.infer<typeof createItemSchema>;
 
-export default function NewItemPage() {
+function NewItemForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -323,5 +323,17 @@ export default function NewItemPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function NewItemPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-robot-primary" />
+      </div>
+    }>
+      <NewItemForm />
+    </Suspense>
   );
 }
