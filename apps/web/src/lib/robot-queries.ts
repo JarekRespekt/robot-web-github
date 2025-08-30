@@ -306,7 +306,7 @@ export function useUpdateItemAvailability(
 ) {
   const queryClient = useQueryClient();
   
-  return useMutation({
+  return useMutation<Item, Error, { id: string; available: boolean }, { previousItem: Item | undefined }>({
     mutationFn: async ({ id, available }: { id: string; available: boolean }) => {
       const response = await robotApi.updateItemAvailability(id, available);
       if (!response.success || !response.data) {
