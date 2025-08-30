@@ -6,8 +6,6 @@ export type I18nStr = {
   en: string; 
 };
 
-export type Locale = 'ua' | 'pl' | 'en';
-
 export interface Category { 
   id: string; 
   tenant_id: string; 
