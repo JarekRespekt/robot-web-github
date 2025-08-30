@@ -8,13 +8,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // ROBOT Design Tokens
+        'robot-primary': 'var(--color-primary)',
+        'robot-surface': 'var(--color-surface)', 
+        'robot-ink': 'var(--color-ink)',
+        
+        // shadcn/ui compatibility
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#CB5544",
+          DEFAULT: "var(--color-primary)",
           50: "#FDF6F5",
           100: "#FBECEA",
           200: "#F6D4D0",
@@ -54,9 +60,18 @@ module.exports = {
         },
       },
       borderRadius: {
+        // ROBOT Design Tokens
+        'robot-lg': 'var(--radius-lg)',
+        'robot-md': 'var(--radius-md)',
+        'robot-sm': 'var(--radius-sm)',
+        
+        // shadcn/ui compatibility
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        'robot-card': 'var(--shadow-card)',
       },
       keyframes: {
         "accordion-down": {
