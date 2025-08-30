@@ -27,7 +27,7 @@ const DELIVERY_METHODS = [
     method: 'courier' as const,
     icon: Truck,
     title: "Кур'єр",
-    description: 'Доставка замовлення кур'єром',
+    description: 'Доставка замовлення кур\'єром',
   },
   {
     method: 'self' as const,
