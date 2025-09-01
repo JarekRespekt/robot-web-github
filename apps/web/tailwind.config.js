@@ -1,39 +1,24 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./src/app/**/*.{ts,tsx}",
+    "./src/components/**/*.{ts,tsx}",
+    "./src/pages/**/*.{ts,tsx}",
   ],
   theme: {
     extend: {
       colors: {
         // ROBOT Design Tokens
-        'robot-primary': 'var(--color-primary)',
-        'robot-surface': 'var(--color-surface)', 
-        'robot-ink': 'var(--color-ink)',
+        primary: "var(--color-primary)",
+        surface: "var(--color-surface)", 
+        ink: "var(--color-ink)",
         
         // shadcn/ui compatibility
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "var(--color-primary)",
-          50: "#FDF6F5",
-          100: "#FBECEA",
-          200: "#F6D4D0",
-          300: "#F0BCB5",
-          400: "#E5A49B",
-          500: "#CB5544",
-          600: "#B54A39",
-          700: "#9F3F2E",
-          800: "#893423",
-          900: "#732918",
-          950: "#5D1E0C",
-          foreground: "hsl(var(--primary-foreground))",
-        },
+        background: "var(--background)",
+        foreground: "var(--foreground)",
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
@@ -61,17 +46,12 @@ module.exports = {
       },
       borderRadius: {
         // ROBOT Design Tokens
-        'robot-lg': 'var(--radius-lg)',
-        'robot-md': 'var(--radius-md)',
-        'robot-sm': 'var(--radius-sm)',
-        
-        // shadcn/ui compatibility
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--radius-lg)",
+        md: "var(--radius-md)",
+        sm: "var(--radius-sm)",
       },
       boxShadow: {
-        'robot-card': 'var(--shadow-card)',
+        card: "var(--shadow-card)",
       },
       keyframes: {
         "accordion-down": {
@@ -90,4 +70,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
