@@ -74,14 +74,28 @@ class RobotApiClient {
         },
       });
 
-      const data = await response.json();
+      // Handle responses without content (204, etc.)
+      let data: any = null;
+      const text = await response.text();
+      
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          // If response is not JSON, treat as plain text
+          data = text;
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
+        const errorMessage = (data && typeof data === 'object' && data.message) 
+          ? data.message 
+          : `HTTP ${response.status}: ${response.statusText}`;
+        throw new Error(errorMessage);
       }
 
       return {
-        data: data.data || data,
+        data: data,
         success: true,
       };
     } catch (error) {
