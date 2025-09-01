@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/lib/query-client";
-import { Header } from "@/components/header";
 import { Toaster } from "@/components/toaster";
 
 const geistSans = Geist({
@@ -16,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ROBOT - Task Management",
-  description: "Управління завданнями з ROBOT",
+  title: "ROBOT Admin - Ваш цифровий асистент ресторану",
+  description: "ROBOT — твій помічник у світі ресторанного бізнесу. Червоний робот у кухарській шапці для зручних замовлень та легкої роботи.",
 };
 
 export default function RootLayout({
@@ -26,17 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="ua">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-surface text-ink`}>
         <QueryProvider>
-          <div className="min-h-screen bg-background">
-            <Header />
-            <main className="container mx-auto px-4 py-8 max-w-7xl">
-              {children}
-            </main>
-          </div>
+          {children}
           <Toaster />
         </QueryProvider>
       </body>
