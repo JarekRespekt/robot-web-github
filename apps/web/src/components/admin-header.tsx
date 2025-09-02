@@ -36,7 +36,7 @@ export function AdminHeader({
   };
 
   return (
-    <header className="bg-surface border-b border-border shadow-sm sticky top-0 z-50">
+    <header className="bg-primary border-b border-primary-foreground/20 shadow-sm sticky top-0 z-50">
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Left Section - Restaurant Selector */}
