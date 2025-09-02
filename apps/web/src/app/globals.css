@@ -24,9 +24,9 @@
   --border: 240 5.9% 90%;
   --input: 240 5.9% 90%;
   --ring: 240 10% 3.9%;
-  --card: #FFF7EA;
+  --card: #ffffff;
   --card-foreground: #062430;
-  --popover: #FFF7EA;
+  --popover: #ffffff;
   --popover-foreground: #062430;
 
   /* ROBOT specific tokens */
