@@ -181,6 +181,8 @@ export default function DeliverySettingsPage() {
 
         {/* Delivery Methods */}
         <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-ink mb-4">Методи доставки</h2>
+          
           {DELIVERY_METHODS.map((methodConfig, index) => {
             const setting = settings.find(s => s.method === methodConfig.method);
             const isEnabled = setting?.enabled || false;
@@ -189,17 +191,17 @@ export default function DeliverySettingsPage() {
             const Icon = methodConfig.icon;
 
             return (
-              <Card key={methodConfig.method} className="robot-card-shadow">
-                <CardHeader>
+              <Card key={methodConfig.method} className="shadow-card border-0">
+                <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 rounded-robot-md bg-robot-primary/10 flex items-center justify-center">
-                        <Icon className="h-6 w-6 text-robot-primary" />
+                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Icon className="h-6 w-6 text-primary" />
                       </div>
                       
                       <div>
-                        <CardTitle className="text-lg">{methodConfig.title}</CardTitle>
-                        <CardDescription>{methodConfig.description}</CardDescription>
+                        <CardTitle className="text-lg text-ink">{methodConfig.title}</CardTitle>
+                        <CardDescription className="mt-1">{methodConfig.description}</CardDescription>
                       </div>
                     </div>
 
