@@ -17,7 +17,21 @@ interface AdminSidebarProps {
   isMenuOpen?: boolean;
 }
 
-export function AdminSidebar({ onMenuClick, isMenuOpen = false }: AdminSidebarProps) {
+interface AdminSidebarProps {
+  onMenuClick?: () => void;
+  onLocationClick?: () => void;
+  onDeliveryClick?: () => void;
+  isMenuOpen?: boolean;
+  currentView?: 'menu' | 'locations' | 'delivery';
+}
+
+export function AdminSidebar({ 
+  onMenuClick, 
+  onLocationClick,
+  onDeliveryClick,
+  isMenuOpen = false,
+  currentView = 'menu'
+}: AdminSidebarProps) {
   const pathname = usePathname();
 
   const navigationItems = [
@@ -26,22 +40,22 @@ export function AdminSidebar({ onMenuClick, isMenuOpen = false }: AdminSidebarPr
       label: 'Меню',
       icon: MenuIcon,
       onClick: onMenuClick,
-      isActive: pathname.startsWith('/menu'),
+      isActive: currentView === 'menu',
       expandable: true,
     },
     {
       id: 'settings-location',
       label: 'Налаштування закладу',
       icon: MapPin,
-      href: '/settings/locations',
-      isActive: pathname === '/settings/locations',
+      onClick: onLocationClick,
+      isActive: currentView === 'locations',
     },
     {
       id: 'settings-delivery',
       label: 'Налаштування доставки',
       icon: Truck,
-      href: '/settings/delivery',
-      isActive: pathname === '/settings/delivery',
+      onClick: onDeliveryClick,
+      isActive: currentView === 'delivery',
     },
   ];
 
