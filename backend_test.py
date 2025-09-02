@@ -227,7 +227,8 @@ class RobotApiTester:
                 "name": {
                     "ua": "Оновлена категорія",
                     "pl": "Zaktualizowana kategoria",
-                    "en": "Updated Category"
+                    "en": "Updated Category",
+                    "by": "Абноўленая катэгорыя"
                 },
                 "visible": False
             }
