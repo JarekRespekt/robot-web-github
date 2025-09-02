@@ -328,6 +328,84 @@ class RobotApiTester:
         result = self.make_request("POST", "/media/sign-upload", {})
         self.log_result(result)
     
+    def test_phase3_enhancements(self):
+        """Test Phase 3 specific enhancements - 4-language support and photo structure"""
+        print("\n🚀 Testing Phase 3 Enhancements...")
+        
+        # Test category creation with all 4 languages including Belarusian
+        phase3_category = {
+            "name": {
+                "ua": "Перші страви",
+                "pl": "Zupy", 
+                "en": "Soups",
+                "by": "Супы"
+            },
+            "visible": True
+        }
+        result = self.make_request("POST", "/categories", phase3_category)
+        self.log_result(result)
+        
+        phase3_category_id = None
+        if result.success and result.response_data:
+            if isinstance(result.response_data, dict) and 'id' in result.response_data:
+                phase3_category_id = result.response_data['id']
+                print(f"   📝 Created Phase 3 category ID: {phase3_category_id}")
+        
+        # Test item creation with enhanced photo structure and 4 languages
+        if phase3_category_id:
+            phase3_item = {
+                "category_id": phase3_category_id,
+                "name": {
+                    "ua": "Борщ українській",
+                    "pl": "Barszcz ukraiński",
+                    "en": "Ukrainian Borscht",
+                    "by": "Украінскі борш"
+                },
+                "description": {
+                    "ua": "Традиційний український борщ з м'ясом та сметаною",
+                    "pl": "Tradycyjny ukraiński barszcz z mięsem i śmietaną",
+                    "en": "Traditional Ukrainian borscht with meat and sour cream",
+                    "by": "Традыцыйны ўкраінскі борш з мясам і смятанай"
+                },
+                "price": 45.50,
+                "packaging_price": 3.00,
+                "available": True,
+                "photo": {
+                    "public_id": "test_borscht_photo_id",
+                    "url": "https://res.cloudinary.com/test/image/upload/v1234567890/test_borscht_photo_id.jpg"
+                }
+            }
+            result = self.make_request("POST", "/items", phase3_item)
+            self.log_result(result)
+            
+            phase3_item_id = None
+            if result.success and result.response_data:
+                if isinstance(result.response_data, dict) and 'id' in result.response_data:
+                    phase3_item_id = result.response_data['id']
+                    print(f"   🍲 Created Phase 3 item ID: {phase3_item_id}")
+        
+        # Test validation - missing Belarusian language should fail
+        invalid_category_missing_by = {
+            "name": {
+                "ua": "Неповна категорія",
+                "pl": "Niepełna kategoria",
+                "en": "Incomplete Category"
+                # Missing 'by' language
+            },
+            "visible": True
+        }
+        result = self.make_request("POST", "/categories", invalid_category_missing_by, expect_success=False)
+        self.log_result(result)
+        
+        # Cleanup Phase 3 test data
+        if phase3_item_id:
+            result = self.make_request("DELETE", f"/items/{phase3_item_id}")
+            self.log_result(result)
+        
+        if phase3_category_id:
+            result = self.make_request("DELETE", f"/categories/{phase3_category_id}")
+            self.log_result(result)
+    
     def test_error_handling(self):
         """Test error handling and validation"""
         print("\n⚠️ Testing Error Handling...")
