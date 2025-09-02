@@ -311,7 +311,8 @@ class RobotApiTester:
         
         # PUT /locations/{id}/delivery-settings - update delivery methods
         if self.location_id:
-            result = self.make_request("PUT", f"/locations/{self.location_id}/delivery-settings", TEST_DELIVERY_SETTINGS)
+            delivery_data = TEST_DELIVERY_SETTINGS["delivery_settings"]  # Send array directly
+            result = self.make_request("PUT", f"/locations/{self.location_id}/delivery-settings", delivery_data)
             self.log_result(result)
     
     def test_media_api(self):
