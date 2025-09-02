@@ -13,6 +13,7 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   ua: 'Українська',
   pl: 'Polski', 
   en: 'English',
+  by: 'Беларуская',
 };
 
 // Locale flags/icons
