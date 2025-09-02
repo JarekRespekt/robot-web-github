@@ -183,17 +183,7 @@ export default function MenuPage() {
           )}
 
           {currentView === 'locations' && (
-            <div className="p-6">
-              <Card className="shadow-card border-0">
-                <CardContent className="pt-12 text-center py-16">
-                  <div className="text-6xl mb-6">🏪</div>
-                  <h2 className="text-2xl font-semibold mb-3 text-ink">Налаштування закладу</h2>
-                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                    Функція редагування соціальних мереж, загальної інформації та локацій буде додана найближчим часом.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+            <LocationsSettingsView />
           )}
 
           {currentView === 'delivery' && (
