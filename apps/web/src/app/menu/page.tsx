@@ -147,23 +147,23 @@ export default function MenuPage() {
         )}
 
         {/* Main Content Area */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 bg-gray-50/30">
           {categoriesLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
-                <div className="w-8 h-8 animate-spin rounded-full border-2 border-robot-primary border-t-transparent mx-auto mb-4"></div>
+                <div className="w-8 h-8 animate-spin rounded-full border-2 border-primary border-t-transparent mx-auto mb-4"></div>
                 <p className="text-muted-foreground">Завантаження категорій...</p>
               </div>
             </div>
           ) : !selectedCategory ? (
-            <Card>
-              <CardContent className="pt-6 text-center py-12">
-                <div className="text-6xl mb-4">🍽️</div>
-                <h2 className="text-xl font-semibold mb-2">Створіть першу категорію</h2>
-                <p className="text-muted-foreground mb-4">
-                  Почніть з додавання категорії для організації вашого меню
+            <Card className="shadow-card border-0">
+              <CardContent className="pt-12 text-center py-16">
+                <div className="text-6xl mb-6">🍽️</div>
+                <h2 className="text-2xl font-semibold mb-3 text-ink">Створіть першу категорію</h2>
+                <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                  Почніть з додавання категорії для організації вашого меню. Категорії допомагають структурувати страви та полегшують навігацію.
                 </p>
-                <Button>
+                <Button className="bg-primary text-white hover:opacity-90 cursor-pointer">
                   <Plus className="h-4 w-4 mr-2" />
                   Створити категорію
                 </Button>
