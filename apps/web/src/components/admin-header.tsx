@@ -55,7 +55,7 @@ export function AdminHeader({
             {/* Restaurant Selector */}
             <div className="flex items-center space-x-2">
               <Select value={selectedRestaurant} onValueChange={setSelectedRestaurant}>
-                <SelectTrigger className="w-64 bg-white">
+                <SelectTrigger className="w-64 bg-white border-white/20 text-ink">
                   <SelectValue placeholder="Оберіть заклад..." />
                 </SelectTrigger>
                 <SelectContent>
