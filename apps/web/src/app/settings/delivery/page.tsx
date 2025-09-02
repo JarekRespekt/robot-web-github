@@ -216,9 +216,9 @@ export default function DeliverySettingsPage() {
 
                 {isEnabled && (
                   <CardContent className="pt-0">
-                    <Separator className="mb-4" />
+                    <Separator className="mb-6" />
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor={`${methodConfig.method}-fee`}>
                           Вартість доставки
@@ -226,22 +226,22 @@ export default function DeliverySettingsPage() {
                         <div className="relative">
                           <Input
                             id={`${methodConfig.method}-fee`}
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            value={fee}
-                            onChange={(e) => 
-                              handleFeeChange(methodConfig.method, e.target.value)
-                            }
-                            placeholder="0.00"
-                            className="pr-12"
+                            type="text"
+                            inputMode="decimal"
+                            value={fee || ''}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/[^\d.]/g, '');
+                              handleFeeChange(methodConfig.method, value);
+                            }}
+                            placeholder="50"
+                            className="pr-12 w-full"
                           />
                           <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
                             грн
                           </span>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          {fee === 0 ? 'Безкоштовно' : `Вартість: ${formatCurrency(fee)}`}
+                          {fee === 0 ? 'Безкоштовна доставка' : `Клієнт сплачує: ${formatCurrency(fee)}`}
                         </p>
                       </div>
 
