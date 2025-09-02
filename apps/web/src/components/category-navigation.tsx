@@ -274,6 +274,27 @@ export function CategoryNavigation({
           Всього: {categories?.length || 0} {(categories?.length || 0) === 1 ? 'категорія' : 'категорій'}
         </div>
       </div>
+
+      {/* Create Category Modal */}
+      <CategoryModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreateCategory}
+        isLoading={createCategory.isPending}
+        title="Створити категорію"
+        description="Введіть назву нової категорії меню"
+      />
+
+      {/* Edit Category Modal */}
+      <CategoryModal
+        isOpen={!!editingCategory}
+        onClose={() => setEditingCategory(null)}
+        onSubmit={handleEditCategory}
+        isLoading={updateCategory.isPending}
+        initialName={editingCategory ? getLocalizedText(editingCategory.name) : ''}
+        title="Редагувати категорію"
+        description="Змініть назву категорії"
+      />
     </div>
   );
 }
