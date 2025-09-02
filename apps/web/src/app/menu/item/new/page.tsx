@@ -342,12 +342,13 @@ function NewItemForm() {
               </div>
 
               {/* Submit Actions */}
-              <div className="flex items-center justify-end space-x-4 pt-6">
+              <div className="flex items-center justify-end space-x-4 pt-6 border-t border-border">
                 <Button 
                   type="button" 
                   variant="outline" 
                   onClick={() => router.push('/menu')}
                   disabled={isSubmitting}
+                  className="cursor-pointer"
                 >
                   Скасувати
                 </Button>
@@ -355,6 +356,7 @@ function NewItemForm() {
                 <Button 
                   type="submit" 
                   disabled={isSubmitting || nameErrors.length > 0}
+                  className="bg-primary text-white hover:opacity-90 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
