@@ -467,7 +467,9 @@ function CreateItemContent() {
               </div>
             </CardContent>
           </Card>
-        </form>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
