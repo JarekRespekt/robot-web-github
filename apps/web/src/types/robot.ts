@@ -4,6 +4,7 @@ export type I18nStr = {
   ua: string; 
   pl: string; 
   en: string; 
+  by: string; // Belarusian
 };
 
 export interface Category { 

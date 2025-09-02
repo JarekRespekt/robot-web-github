@@ -18,6 +18,7 @@ export default function MenuPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [currentView, setCurrentView] = useState<'menu' | 'locations' | 'delivery'>('menu');
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const { 
@@ -52,7 +53,18 @@ export default function MenuPage() {
   const categoryItems = items || [];
 
   const handleMenuToggle = () => {
+    setCurrentView('menu');
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLocationClick = () => {
+    setCurrentView('locations');
+    setIsMenuOpen(false);
+  };
+
+  const handleDeliveryClick = () => {
+    setCurrentView('delivery');
+    setIsMenuOpen(false);
   };
 
   if (categoriesError || itemsError) {
@@ -88,76 +100,113 @@ export default function MenuPage() {
         {/* Main Sidebar */}
         <AdminSidebar 
           onMenuClick={handleMenuToggle}
-          isMenuOpen={isMenuOpen}
+          onLocationClick={handleLocationClick}
+          onDeliveryClick={handleDeliveryClick}
+          isMenuOpen={isMenuOpen && currentView === 'menu'}
+          currentView={currentView}
         />
 
-        {/* Category Navigation */}
-        <CategoryNavigation 
-          isOpen={isMenuOpen}
-          selectedCategoryId={selectedCategoryId}
-          onSelectCategory={setSelectedCategoryId}
-        />
+        {/* Category Navigation - Only show for menu */}
+        {currentView === 'menu' && (
+          <CategoryNavigation 
+            isOpen={isMenuOpen}
+            selectedCategoryId={selectedCategoryId}
+            onSelectCategory={setSelectedCategoryId}
+          />
+        )}
 
         {/* Main Content Area */}
         <main className="flex-1 overflow-auto bg-gray-50/30">
-          {categoriesLoading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="text-center">
-                <div className="w-8 h-8 animate-spin rounded-full border-2 border-primary border-t-transparent mx-auto mb-4"></div>
-                <p className="text-muted-foreground">Завантаження категорій...</p>
-              </div>
-            </div>
-          ) : !selectedCategory ? (
+          {currentView === 'menu' && (
+            <>
+              {categoriesLoading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="text-center">
+                    <div className="w-8 h-8 animate-spin rounded-full border-2 border-primary border-t-transparent mx-auto mb-4"></div>
+                    <p className="text-muted-foreground">Завантаження категорій...</p>
+                  </div>
+                </div>
+              ) : !selectedCategory ? (
+                <div className="p-6">
+                  <Card className="shadow-card border-0">
+                    <CardContent className="pt-12 text-center py-16">
+                      <div className="text-6xl mb-6">🍽️</div>
+                      <h2 className="text-2xl font-semibold mb-3 text-ink">Створіть першу категорію</h2>
+                      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                        Почніть з додавання категорії для організації вашого меню. Категорії допомагають структурувати страви та полегшують навігацію.
+                      </p>
+                      <Button 
+                        className="bg-primary text-white hover:opacity-90 cursor-pointer"
+                        onClick={handleMenuToggle}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Відкрити панель категорій
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              ) : (
+                <div className="p-6 space-y-6">
+                  {/* Category Header */}              
+                  <div className="bg-surface rounded-lg p-6 shadow-sm border">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h2 className="text-2xl font-bold text-ink">
+                          {selectedCategory.name.ua}
+                        </h2>
+                        <p className="text-muted-foreground mt-1">
+                          {categoryItems.length} {categoryItems.length === 1 ? 'страва' : 'страв'} у категорії
+                        </p>
+                      </div>
+                      
+                      <Button 
+                        asChild 
+                        className="bg-primary text-white hover:opacity-90 cursor-pointer"
+                      >
+                        <Link href={`/menu/item/new?category=${selectedCategoryId}`}>
+                          <Plus className="h-4 w-4 mr-2" />
+                          Додати страву
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Items Table */}
+                  <ItemsTable 
+                    items={categoryItems}
+                    loading={itemsLoading}
+                    onRefetch={refetchItems}
+                  />
+                </div>
+              )}
+            </>
+          )}
+
+          {currentView === 'locations' && (
             <div className="p-6">
               <Card className="shadow-card border-0">
                 <CardContent className="pt-12 text-center py-16">
-                  <div className="text-6xl mb-6">🍽️</div>
-                  <h2 className="text-2xl font-semibold mb-3 text-ink">Створіть першу категорію</h2>
+                  <div className="text-6xl mb-6">🏪</div>
+                  <h2 className="text-2xl font-semibold mb-3 text-ink">Налаштування закладу</h2>
                   <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                    Почніть з додавання категорії для організації вашого меню. Категорії допомагають структурувати страви та полегшують навігацію.
+                    Функція редагування соціальних мереж, загальної інформації та локацій буде додана найближчим часом.
                   </p>
-                  <Button 
-                    className="bg-primary text-white hover:opacity-90 cursor-pointer"
-                    onClick={handleMenuToggle}
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Відкрити панель категорій
-                  </Button>
                 </CardContent>
               </Card>
             </div>
-          ) : (
-            <div className="p-6 space-y-6">
-              {/* Category Header */}              
-              <div className="bg-surface rounded-lg p-6 shadow-sm border">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="text-2xl font-bold text-ink">
-                      {selectedCategory.name.ua}
-                    </h2>
-                    <p className="text-muted-foreground mt-1">
-                      {categoryItems.length} {categoryItems.length === 1 ? 'страва' : 'страв'} у категорії
-                    </p>
-                  </div>
-                  
-                  <Button 
-                    asChild 
-                    className="bg-primary text-white hover:opacity-90 cursor-pointer"
-                  >
-                    <Link href={`/menu/item/new?category=${selectedCategoryId}`}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Додати страву
-                    </Link>
-                  </Button>
-                </div>
-              </div>
+          )}
 
-              {/* Items Table */}
-              <ItemsTable 
-                items={categoryItems}
-                loading={itemsLoading}
-                onRefetch={refetchItems}
-              />
+          {currentView === 'delivery' && (
+            <div className="p-6">
+              <Card className="shadow-card border-0">
+                <CardContent className="pt-12 text-center py-16">
+                  <div className="text-6xl mb-6">🚚</div>
+                  <h2 className="text-2xl font-semibold mb-3 text-ink">Налаштування доставки</h2>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    Самовивіз, доставка та можливість створення нових методів доставки буде додана найближчим часом.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           )}
         </main>

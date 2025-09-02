@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { CategoryModal } from '@/components/category-modal';
 import { 
   Search, 
   Plus, 
@@ -14,7 +15,7 @@ import {
   Trash2,
   Loader2
 } from 'lucide-react';
-import { useCategories, useCreateCategory } from '@/lib/robot-queries';
+import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from '@/lib/robot-queries';
 import { useToast } from '@/hooks/use-toast';
 import { getLocalizedText } from '@/lib/i18n';
 import type { Category } from '@/types/robot';
@@ -32,6 +33,8 @@ export function CategoryNavigation({
 }: CategoryNavigationProps) {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   
   const { 
     data: categories, 
@@ -55,23 +58,85 @@ export function CategoryNavigation({
     },
   });
 
-  const handleCreateCategory = () => {
+  const updateCategory = useUpdateCategory({
+    onSuccess: () => {
+      toast({
+        title: 'Успіх!',
+        description: 'Категорію оновлено успішно',
+        variant: 'success',
+      });
+      setEditingCategory(null);
+    },
+    onError: (error) => {
+      toast({
+        title: 'Помилка',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const deleteCategory = useDeleteCategory({
+    onSuccess: () => {
+      toast({
+        title: 'Успіх!',
+        description: 'Категорію видалено успішно',
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Помилка',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const handleCreateCategory = async (name: string) => {
     const newCategory = {
       name: {
-        ua: 'Нова категорія',
-        pl: 'Nowa kategoria',
-        en: 'New category',
+        ua: name,
+        pl: name,
+        en: name,
+        by: name,
       },
       description: {
         ua: '',
         pl: '',
         en: '',
+        by: '',
       },
       visible: true,
       order: (categories?.length || 0) + 1,
     };
 
-    createCategory.mutate(newCategory);
+    await createCategory.mutateAsync(newCategory);
+  };
+
+  const handleEditCategory = async (name: string) => {
+    if (!editingCategory) return;
+    
+    const updatedCategory = {
+      ...editingCategory,
+      name: {
+        ua: name,
+        pl: name,
+        en: name,
+        by: name,
+      },
+    };
+
+    await updateCategory.mutateAsync({
+      id: editingCategory.id,
+      data: updatedCategory,
+    });
+  };
+
+  const handleDeleteCategory = (categoryId: string) => {
+    if (confirm('Ви впевнені, що хочете видалити цю категорію?')) {
+      deleteCategory.mutate(categoryId);
+    }
   };
 
   // Filter categories based on search
@@ -101,14 +166,9 @@ export function CategoryNavigation({
           <Button 
             size="sm" 
             className="bg-primary text-white hover:opacity-90 cursor-pointer"
-            onClick={handleCreateCategory}
-            disabled={createCategory.isPending}
+            onClick={() => setIsCreateModalOpen(true)}
           >
-            {createCategory.isPending ? (
-              <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-            ) : (
-              <Plus className="h-4 w-4 mr-1" />
-            )}
+            <Plus className="h-4 w-4 mr-1" />
             Нова
           </Button>
         </div>
@@ -184,7 +244,7 @@ export function CategoryNavigation({
                     className="h-6 w-6 p-0"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // TODO: Edit category
+                      setEditingCategory(category);
                     }}
                   >
                     <Edit className="h-3 w-3" />
@@ -196,7 +256,7 @@ export function CategoryNavigation({
                     className="h-6 w-6 p-0 text-destructive hover:text-destructive"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // TODO: Delete category
+                      handleDeleteCategory(category.id);
                     }}
                   >
                     <Trash2 className="h-3 w-3" />
@@ -214,6 +274,27 @@ export function CategoryNavigation({
           Всього: {categories?.length || 0} {(categories?.length || 0) === 1 ? 'категорія' : 'категорій'}
         </div>
       </div>
+
+      {/* Create Category Modal */}
+      <CategoryModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreateCategory}
+        isLoading={createCategory.isPending}
+        title="Створити категорію"
+        description="Введіть назву нової категорії меню"
+      />
+
+      {/* Edit Category Modal */}
+      <CategoryModal
+        isOpen={!!editingCategory}
+        onClose={() => setEditingCategory(null)}
+        onSubmit={handleEditCategory}
+        isLoading={updateCategory.isPending}
+        initialName={editingCategory ? getLocalizedText(editingCategory.name) : ''}
+        title="Редагувати категорію"
+        description="Змініть назву категорії"
+      />
     </div>
   );
 }

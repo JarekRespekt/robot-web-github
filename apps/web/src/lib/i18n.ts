@@ -1,18 +1,19 @@
 import type { I18nStr } from '@/types/robot';
 
-export type Locale = 'ua' | 'pl' | 'en';
+export type Locale = 'ua' | 'pl' | 'en' | 'by';
 
 // Default locale for admin UI
 export const DEFAULT_LOCALE: Locale = 'ua';
 
 // Available locales for content
-export const SUPPORTED_LOCALES: Locale[] = ['ua', 'pl', 'en'];
+export const SUPPORTED_LOCALES: Locale[] = ['ua', 'pl', 'en', 'by'];
 
 // Locale display names
 export const LOCALE_NAMES: Record<Locale, string> = {
   ua: 'Українська',
   pl: 'Polski', 
   en: 'English',
+  by: 'Беларуская',
 };
 
 // Locale flags/icons
@@ -20,6 +21,7 @@ export const LOCALE_FLAGS: Record<Locale, string> = {
   ua: '🇺🇦',
   pl: '🇵🇱',
   en: '🇺🇸',
+  by: '🇧🇾',
 };
 
 /**
@@ -44,6 +46,7 @@ export function createEmptyI18nStr(): I18nStr {
     ua: '',
     pl: '',
     en: '',
+    by: '',
   };
 }
 
@@ -78,6 +81,7 @@ export function formatCurrency(
     ua: 'uk-UA',
     pl: 'pl-PL', 
     en: 'en-US',
+    by: 'be-BY',
   };
 
   try {
