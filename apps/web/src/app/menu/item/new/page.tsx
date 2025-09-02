@@ -145,8 +145,15 @@ function NewItemForm() {
   }
 
   return (
-    <div className="min-h-screen bg-robot-surface p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-white">
+      <div className="bg-surface border-b border-border">
+        <div className="max-w-4xl mx-auto px-6 py-4">
+          <h1 className="text-2xl font-bold text-ink">Створення нової страви</h1>
+          <p className="text-muted-foreground mt-1">Додайте інформацію про нову страву до меню</p>
+        </div>
+      </div>
+      
+      <div className="max-w-4xl mx-auto p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center space-x-4">
           <Button variant="outline" size="sm" asChild>
