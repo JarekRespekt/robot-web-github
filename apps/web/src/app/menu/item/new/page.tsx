@@ -165,12 +165,8 @@ function NewItemForm() {
         </div>
 
         {/* Main Form */}
-        <Card className="robot-card-shadow">
-          <CardHeader>
-            <CardTitle className="robot-ink">Створити нову страву</CardTitle>
-          </CardHeader>
-
-          <CardContent>
+        <Card className="shadow-card border-0">
+          <CardContent className="p-8">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Category Selection */}
               <div className="space-y-2">
