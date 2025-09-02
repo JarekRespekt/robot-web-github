@@ -275,7 +275,14 @@ export function CategorySidebar({
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold robot-ink">Категорії</h2>
-          <Button size="sm">
+          <Button 
+            size="sm" 
+            className="bg-primary text-white hover:opacity-90 cursor-pointer"
+            onClick={() => {
+              // TODO: Open create category modal
+              console.log('Create new category');
+            }}
+          >
             <Plus className="h-4 w-4 mr-1" />
             Нова
           </Button>

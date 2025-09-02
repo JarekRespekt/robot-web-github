@@ -136,12 +136,11 @@ export default function DeliverySettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-robot-surface p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-white">
+      <div className="bg-surface border-b border-border">
+        <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm" asChild>
+            <Button variant="outline" size="sm" asChild className="cursor-pointer">
               <Link href="/menu">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Назад до меню
@@ -149,17 +148,21 @@ export default function DeliverySettingsPage() {
             </Button>
             
             <div>
-              <h1 className="text-2xl font-bold robot-ink">Налаштування доставки</h1>
-              <p className="text-muted-foreground">
-                Керуйте методами та цінами доставки
-              </p>
+              <h1 className="text-2xl font-bold text-ink">Налаштування доставки</h1>
+              <p className="text-muted-foreground mt-1">Керуйте методами доставки та тарифами</p>
             </div>
           </div>
-
-          {hasChanges && (
+        </div>
+      </div>
+      
+      <div className="max-w-4xl mx-auto p-6 space-y-6">
+        {/* Save Button */}
+        {hasChanges && (
+          <div className="flex justify-end">
             <Button 
               onClick={handleSave}
               disabled={updateDeliverySettings.isPending}
+              className="bg-primary text-white hover:opacity-90 cursor-pointer"
             >
               {updateDeliverySettings.isPending ? (
                 <>
@@ -169,15 +172,17 @@ export default function DeliverySettingsPage() {
               ) : (
                 <>
                   <Save className="h-4 w-4 mr-2" />
-                  Зберегти
+                  Зберегти зміни
                 </>
               )}
             </Button>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Delivery Methods */}
         <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-ink mb-4">Методи доставки</h2>
+          
           {DELIVERY_METHODS.map((methodConfig, index) => {
             const setting = settings.find(s => s.method === methodConfig.method);
             const isEnabled = setting?.enabled || false;
@@ -186,17 +191,17 @@ export default function DeliverySettingsPage() {
             const Icon = methodConfig.icon;
 
             return (
-              <Card key={methodConfig.method} className="robot-card-shadow">
-                <CardHeader>
+              <Card key={methodConfig.method} className="shadow-card border-0">
+                <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 rounded-robot-md bg-robot-primary/10 flex items-center justify-center">
-                        <Icon className="h-6 w-6 text-robot-primary" />
+                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Icon className="h-6 w-6 text-primary" />
                       </div>
                       
                       <div>
-                        <CardTitle className="text-lg">{methodConfig.title}</CardTitle>
-                        <CardDescription>{methodConfig.description}</CardDescription>
+                        <CardTitle className="text-lg text-ink">{methodConfig.title}</CardTitle>
+                        <CardDescription className="mt-1">{methodConfig.description}</CardDescription>
                       </div>
                     </div>
 
@@ -211,9 +216,9 @@ export default function DeliverySettingsPage() {
 
                 {isEnabled && (
                   <CardContent className="pt-0">
-                    <Separator className="mb-4" />
+                    <Separator className="mb-6" />
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor={`${methodConfig.method}-fee`}>
                           Вартість доставки
@@ -221,22 +226,22 @@ export default function DeliverySettingsPage() {
                         <div className="relative">
                           <Input
                             id={`${methodConfig.method}-fee`}
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            value={fee}
-                            onChange={(e) => 
-                              handleFeeChange(methodConfig.method, e.target.value)
-                            }
-                            placeholder="0.00"
-                            className="pr-12"
+                            type="text"
+                            inputMode="decimal"
+                            value={fee || ''}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/[^\d.]/g, '');
+                              handleFeeChange(methodConfig.method, value);
+                            }}
+                            placeholder="50"
+                            className="pr-12 w-full"
                           />
                           <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
                             грн
                           </span>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          {fee === 0 ? 'Безкоштовно' : `Вартість: ${formatCurrency(fee)}`}
+                          {fee === 0 ? 'Безкоштовна доставка' : `Клієнт сплачує: ${formatCurrency(fee)}`}
                         </p>
                       </div>
 

@@ -7,7 +7,7 @@
   --color-ink: #062430;
 
   /* shadcn system vars mapped to ROBOT tokens */
-  --background: #FFF7EA;          /* surface */
+  --background: #ffffff;          /* white background */
   --foreground: #062430;          /* ink */
   --primary: #CB5544;             /* ROBOT red */
   --primary-foreground: #ffffff;
@@ -24,9 +24,9 @@
   --border: 240 5.9% 90%;
   --input: 240 5.9% 90%;
   --ring: 240 10% 3.9%;
-  --card: #FFF7EA;
+  --card: #ffffff;
   --card-foreground: #062430;
-  --popover: #FFF7EA;
+  --popover: #ffffff;
   --popover-foreground: #062430;
 
   /* ROBOT specific tokens */
@@ -40,4 +40,38 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Custom utility classes */
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.text-ink {
+  color: var(--color-ink);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.border-surface {
+  border-color: var(--color-surface);
+}
+
+/* Button improvements */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
