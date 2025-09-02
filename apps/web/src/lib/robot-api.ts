@@ -244,9 +244,7 @@ class RobotApiClient {
 
   // Utility methods
   isAuthenticated(): boolean {
-    // Temporary bypass for testing - always return true
-    return true;
-    // return !!this.getAuthToken();
+    return !!this.getAuthToken();
   }
 
   getToken(): string | null {
