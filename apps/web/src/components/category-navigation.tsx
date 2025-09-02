@@ -166,14 +166,9 @@ export function CategoryNavigation({
           <Button 
             size="sm" 
             className="bg-primary text-white hover:opacity-90 cursor-pointer"
-            onClick={handleCreateCategory}
-            disabled={createCategory.isPending}
+            onClick={() => setIsCreateModalOpen(true)}
           >
-            {createCategory.isPending ? (
-              <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-            ) : (
-              <Plus className="h-4 w-4 mr-1" />
-            )}
+            <Plus className="h-4 w-4 mr-1" />
             Нова
           </Button>
         </div>
