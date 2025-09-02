@@ -85,7 +85,7 @@ function CreateItemContent() {
       description: createEmptyI18nStr(),
       price: 0,
       packaging_price: 0,
-      photo_url: '',
+      photo_url: undefined,
       available: true,
     },
   });
