@@ -14,7 +14,7 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { ImageUploader } from '@/components/image-uploader';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, MenuIcon } from 'lucide-react';
 import { useCategories, useCreateItem } from '@/lib/robot-queries';
 import { useToast } from '@/hooks/use-toast';
 import { createEmptyI18nStr, LOCALE_FLAGS, LOCALE_NAMES } from '@/lib/i18n';
