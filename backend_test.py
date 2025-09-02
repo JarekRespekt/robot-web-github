@@ -320,7 +320,7 @@ class RobotApiTester:
         print("\n🖼️ Testing Media API...")
         
         # POST /media/sign-upload - test Cloudinary signature generation
-        result = self.make_request("POST", "/media/sign-upload")
+        result = self.make_request("POST", "/media/sign-upload", {})
         self.log_result(result)
     
     def test_error_handling(self):
