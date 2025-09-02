@@ -21,6 +21,7 @@ export const LOCALE_FLAGS: Record<Locale, string> = {
   ua: '🇺🇦',
   pl: '🇵🇱',
   en: '🇺🇸',
+  by: '🇧🇾',
 };
 
 /**
