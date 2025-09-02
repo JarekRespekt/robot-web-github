@@ -18,7 +18,7 @@ export default function MenuPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const { 
     data: categories, 
@@ -50,6 +50,10 @@ export default function MenuPage() {
 
   const selectedCategory = categories?.find(cat => cat.id === selectedCategoryId);
   const categoryItems = items || [];
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   if (categoriesError || itemsError) {
     return (
