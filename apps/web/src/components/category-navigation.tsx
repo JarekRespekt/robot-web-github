@@ -33,6 +33,8 @@ export function CategoryNavigation({
 }: CategoryNavigationProps) {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   
   const { 
     data: categories, 
@@ -56,23 +58,85 @@ export function CategoryNavigation({
     },
   });
 
-  const handleCreateCategory = () => {
+  const updateCategory = useUpdateCategory({
+    onSuccess: () => {
+      toast({
+        title: 'Успіх!',
+        description: 'Категорію оновлено успішно',
+        variant: 'success',
+      });
+      setEditingCategory(null);
+    },
+    onError: (error) => {
+      toast({
+        title: 'Помилка',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const deleteCategory = useDeleteCategory({
+    onSuccess: () => {
+      toast({
+        title: 'Успіх!',
+        description: 'Категорію видалено успішно',
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Помилка',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const handleCreateCategory = async (name: string) => {
     const newCategory = {
       name: {
-        ua: 'Нова категорія',
-        pl: 'Nowa kategoria',
-        en: 'New category',
+        ua: name,
+        pl: name,
+        en: name,
+        by: name,
       },
       description: {
         ua: '',
         pl: '',
         en: '',
+        by: '',
       },
       visible: true,
       order: (categories?.length || 0) + 1,
     };
 
-    createCategory.mutate(newCategory);
+    await createCategory.mutateAsync(newCategory);
+  };
+
+  const handleEditCategory = async (name: string) => {
+    if (!editingCategory) return;
+    
+    const updatedCategory = {
+      ...editingCategory,
+      name: {
+        ua: name,
+        pl: name,
+        en: name,
+        by: name,
+      },
+    };
+
+    await updateCategory.mutateAsync({
+      id: editingCategory.id,
+      data: updatedCategory,
+    });
+  };
+
+  const handleDeleteCategory = (categoryId: string) => {
+    if (confirm('Ви впевнені, що хочете видалити цю категорію?')) {
+      deleteCategory.mutate(categoryId);
+    }
   };
 
   // Filter categories based on search
