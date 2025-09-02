@@ -276,7 +276,8 @@ class RobotApiTester:
                 "name": {
                     "ua": "Оновлений товар",
                     "pl": "Zaktualizowany produkt",
-                    "en": "Updated Item"
+                    "en": "Updated Item",
+                    "by": "Абноўлены тавар"
                 },
                 "price": 29.99
             }
