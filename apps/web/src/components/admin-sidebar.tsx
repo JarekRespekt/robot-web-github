@@ -65,24 +65,6 @@ export function AdminSidebar({
         {navigationItems.map((item) => {
           const Icon = item.icon;
           
-          if (item.href) {
-            return (
-              <Button
-                key={item.id}
-                asChild
-                variant={item.isActive ? "secondary" : "ghost"}
-                className={`w-full justify-start cursor-pointer ${
-                  item.isActive ? 'bg-surface text-ink' : ''
-                }`}
-              >
-                <Link href={item.href}>
-                  <Icon className="h-5 w-5 mr-3" />
-                  {item.label}
-                </Link>
-              </Button>
-            );
-          }
-
           return (
             <Button
               key={item.id}
