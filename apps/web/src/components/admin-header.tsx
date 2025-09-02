@@ -91,7 +91,7 @@ export function AdminHeader({
             <Button
               variant="outline"
               onClick={handleLogout}
-              className="cursor-pointer"
+              className="cursor-pointer border-white/30 text-white hover:bg-surface hover:text-ink"
             >
               <LogOut className="h-4 w-4 mr-2" />
               Вихід
