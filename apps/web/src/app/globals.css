@@ -7,7 +7,7 @@
   --color-ink: #062430;
 
   /* shadcn system vars mapped to ROBOT tokens */
-  --background: #FFF7EA;          /* surface */
+  --background: #ffffff;          /* white background */
   --foreground: #062430;          /* ink */
   --primary: #CB5544;             /* ROBOT red */
   --primary-foreground: #ffffff;
