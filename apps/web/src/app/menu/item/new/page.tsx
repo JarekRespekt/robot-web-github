@@ -126,8 +126,90 @@ function CreateItemContent() {
   ];
 
   return (
-    <div className="flex-1 overflow-auto bg-gray-50/30">
-      <div className="p-6 space-y-6">
+    <div className="min-h-screen bg-white">
+      {/* Admin Header */}
+      <div className="bg-primary border-b border-primary-foreground/20 shadow-sm sticky top-0 z-50">
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-white rounded-md flex items-center justify-center shadow-sm">
+                  <span className="text-primary text-xl">🤖</span>
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-white">ROBOT Admin</h1>
+                  <p className="text-sm text-primary-foreground/80">Створення нової страви</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Button
+                variant="outline"
+                onClick={() => router.push('/menu')}
+                className="cursor-pointer border-white/30 text-white hover:bg-surface hover:text-ink"
+              >
+                Назад до меню
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex h-[calc(100vh-80px)]">
+        {/* Main Sidebar */}
+        <div className="w-64 bg-white border-r border-border h-full">
+          <nav className="p-4 space-y-2">
+            <Button
+              variant="secondary"
+              className="w-full justify-start cursor-pointer bg-surface text-ink"
+              onClick={() => router.push('/menu')}
+            >
+              <MenuIcon className="h-5 w-5 mr-3" />
+              Меню
+            </Button>
+          </nav>
+        </div>
+
+        {/* Category Navigation */}
+        <div className="w-80 bg-white border-r border-border h-full">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-semibold text-ink">Категорії</h2>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            {categoriesLoading ? (
+              <div className="text-center py-8">
+                <Loader2 className="h-6 w-6 animate-spin text-primary mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">Завантаження...</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {categories?.map((category) => (
+                  <div
+                    key={category.id}
+                    className={`
+                      group flex items-center space-x-2 p-3 rounded-md border transition-colors cursor-pointer
+                      ${selectedCategoryId === category.id
+                        ? 'bg-surface border-primary' 
+                        : 'bg-white border-border hover:border-primary/50'
+                      }
+                    `}
+                    onClick={() => setSelectedCategoryId(category.id)}
+                  >
+                    <span className={`font-medium truncate ${
+                      selectedCategoryId === category.id ? 'text-primary' : ''
+                    }`}>
+                      {category.name.ua}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Main Content - Form */}
+        <div className="flex-1 overflow-auto bg-gray-50/30">
+          <div className="p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center space-x-6">
           <Button
