@@ -49,6 +49,7 @@ function CreateItemContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 
   const { data: categories, isLoading: categoriesLoading } = useCategories();
   
