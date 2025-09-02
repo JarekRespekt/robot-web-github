@@ -22,60 +22,73 @@ export default function HomePage() {
                 <div className="w-24 h-1 bg-primary mx-auto lg:mx-0 rounded-full"></div>
               </div>
 
-          {/* Main Description */}
-          <div className="max-w-4xl mx-auto mb-12">
-            <p className="text-xl md:text-2xl text-ink/80 leading-relaxed mb-8">
-              <strong className="text-primary">ROBOT</strong> — твій помічник у світі ресторанного бізнесу. 
-            </p>
-            
-            <p className="text-lg md:text-xl text-ink/70 leading-relaxed">
-              Це не просто софт, а цілий <span className="text-primary font-medium">цифровий асистент</span>: 
-              червоний робот у кухарській шапці, який знає, як зробити замовлення зручними, 
-              оплату — швидкою, а роботу персоналу — легшою.
-            </p>
+              {/* Main Description */}
+              <div className="mb-12">
+                <p className="text-xl md:text-2xl text-ink/80 leading-relaxed mb-8">
+                  <strong className="text-primary">ROBOT</strong> — твій помічник у світі ресторанного бізнесу.
+                </p>
+                <p className="text-lg md:text-xl text-ink/70 leading-relaxed">
+                  Це не просто софт, а цілий <span className="text-primary font-medium">цифровий асистент</span>: червоний робот у кухарській шапці, який знає, як зробити замовлення зручними, оплату — швидкою, а роботу персоналу — легшою.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+                <Button 
+                  asChild 
+                  size="lg" 
+                  className="bg-primary text-white rounded-lg shadow-card hover:opacity-90 text-lg px-8 py-4"
+                >
+                  <Link href="/login">
+                    Увійти
+                    <ChevronRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+                  onClick={() => {
+                    // TODO: Add "Learn More" functionality
+                    console.log('Learn more clicked');
+                  }}
+                >
+                  Дізнатись більше
+                </Button>
+
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+                  onClick={() => {
+                    // TODO: Add "How to start" functionality
+                    console.log('How to start clicked');
+                  }}
+                >
+                  Як розпочати?
+                </Button>
+              </div>
+
+              <p className="text-sm text-ink/60 mt-6">
+                Авторизація через Telegram • Безпечно та швидко
+              </p>
+            </div>
+
+            {/* Right Content - Robot Image */}
+            <div className="hidden lg:flex justify-center items-center">
+              <div className="relative">
+                <img 
+                  src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/tulc9oo2_DALL%C2%B7E%202023-10-22%2018.22.25%20-%20Illustration%20of%20a%20cheerful%20red%20cartoonish%20robot%20peeking%20out%20from%20behind%20an%20implied%20partition%20on%20the%20right%20side.%20The%20robot%20hides%20playfully%20with%20one%20arm.png"
+                  alt="ROBOT - Червоний робот у кухарській шапці"
+                  className="w-full max-w-md h-auto object-contain"
+                />
+                {/* Accent elements */}
+                <div className="absolute -top-4 -left-4 w-16 h-16 bg-primary/20 rounded-full blur-2xl"></div>
+                <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-primary/10 rounded-full blur-3xl"></div>
+              </div>
+            </div>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              asChild 
-              size="lg" 
-              className="bg-primary text-white rounded-lg shadow-card hover:opacity-90 text-lg px-8 py-4"
-            >
-              <Link href="/login">
-                Увійти
-                <ChevronRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
-              onClick={() => {
-                // TODO: Add "Learn More" functionality
-                console.log('Learn more clicked');
-              }}
-            >
-              Дізнатись більше
-            </Button>
-
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
-              onClick={() => {
-                // TODO: Add "How to start" functionality
-                console.log('How to start clicked');
-              }}
-            >
-              Як розпочати?
-            </Button>
-          </div>
-
-          <p className="text-sm text-ink/60 mt-6">
-            Авторизація через Telegram • Безпечно та швидко
-          </p>
         </div>
 
         {/* Decorative Elements */}
