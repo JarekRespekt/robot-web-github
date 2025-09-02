@@ -156,19 +156,13 @@ export default function DeliverySettingsPage() {
       </div>
       
       <div className="max-w-4xl mx-auto p-6 space-y-6">
-            
-            <div>
-              <h1 className="text-2xl font-bold robot-ink">Налаштування доставки</h1>
-              <p className="text-muted-foreground">
-                Керуйте методами та цінами доставки
-              </p>
-            </div>
-          </div>
-
-          {hasChanges && (
+        {/* Save Button */}
+        {hasChanges && (
+          <div className="flex justify-end">
             <Button 
               onClick={handleSave}
               disabled={updateDeliverySettings.isPending}
+              className="bg-primary text-white hover:opacity-90 cursor-pointer"
             >
               {updateDeliverySettings.isPending ? (
                 <>
@@ -178,12 +172,12 @@ export default function DeliverySettingsPage() {
               ) : (
                 <>
                   <Save className="h-4 w-4 mr-2" />
-                  Зберегти
+                  Зберегти зміни
                 </>
               )}
             </Button>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Delivery Methods */}
         <div className="space-y-4">
