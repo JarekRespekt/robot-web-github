@@ -38,15 +38,16 @@ export default function LoginPage() {
             </div>
           </CardHeader>
         
-        <CardContent className="space-y-6">
-          <TelegramLogin />
-          
-          <div className="text-xs text-center text-muted-foreground space-y-1">
-            <p>Доступ тільки для авторизованих адміністраторів</p>
-            <p>Ваші дані захищені та не зберігаються на сторонніх серверах</p>
-          </div>
-        </CardContent>
-      </Card>
+          <CardContent className="space-y-6">
+            <TelegramLogin />
+            
+            <div className="text-xs text-center text-muted-foreground space-y-1">
+              <p>Доступ тільки для авторизованих адміністраторів</p>
+              <p>Ваші дані захищені та не зберігаються на сторонніх серверах</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
