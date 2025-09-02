@@ -18,6 +18,7 @@ export default function MenuPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [currentView, setCurrentView] = useState<'menu' | 'locations' | 'delivery'>('menu');
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const { 
@@ -52,7 +53,18 @@ export default function MenuPage() {
   const categoryItems = items || [];
 
   const handleMenuToggle = () => {
+    setCurrentView('menu');
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLocationClick = () => {
+    setCurrentView('locations');
+    setIsMenuOpen(false);
+  };
+
+  const handleDeliveryClick = () => {
+    setCurrentView('delivery');
+    setIsMenuOpen(false);
   };
 
   if (categoriesError || itemsError) {
