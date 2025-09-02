@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useCategories, useItems } from '@/lib/robot-queries';
-import { CategorySidebar } from '@/components/category-sidebar';
+import { AdminHeader } from '@/components/admin-header';
+import { AdminSidebar } from '@/components/admin-sidebar';
+import { CategoryNavigation } from '@/components/category-navigation'; 
 import { ItemsTable } from '@/components/items-table';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Menu as MenuIcon } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import robotApi from '@/lib/robot-api';
 import { useRouter } from 'next/navigation';
