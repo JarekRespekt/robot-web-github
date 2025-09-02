@@ -2,19 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm, Controller } from 'react-hook-form';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Save, MapPin, Phone, Clock, Globe, Loader2 } from 'lucide-react';
-import { useLocations, useUpdateLocation } from '@/lib/robot-queries';
+import { Badge } from '@/components/ui/badge';
+import { ArrowLeft, Plus, MapPin, Phone, Clock, Edit, Trash2, Loader2 } from 'lucide-react';
+import { useLocations } from '@/lib/robot-queries';
 import { useToast } from '@/hooks/use-toast';
+import { getLocalizedText } from '@/lib/i18n';
 import robotApi from '@/lib/robot-api';
 import Link from 'next/link';
-import type { Location, UpdateLocationRequest } from '@/types/robot';
+import type { Location } from '@/types/robot';
 
 const DAYS_OF_WEEK = [
   { key: 'mon' as const, label: 'Понеділок' },
