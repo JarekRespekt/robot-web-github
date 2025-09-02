@@ -81,6 +81,7 @@ export function formatCurrency(
     ua: 'uk-UA',
     pl: 'pl-PL', 
     en: 'en-US',
+    by: 'be-BY',
   };
 
   try {
