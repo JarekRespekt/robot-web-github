@@ -41,3 +41,37 @@ body {
   color: var(--foreground);
   font-feature-settings: "rlig" 1, "calt" 1;
 }
+
+/* Custom utility classes */
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.text-ink {
+  color: var(--color-ink);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.border-surface {
+  border-color: var(--color-surface);
+}
+
+/* Button improvements */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
