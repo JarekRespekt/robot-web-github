@@ -75,7 +75,7 @@ export function AdminHeader({
                       variant="ghost"
                       size="sm"
                       onClick={handleCreateRestaurant}
-                      className="w-full justify-start text-primary hover:text-primary"
+                      className="w-full justify-start text-primary hover:text-primary hover:bg-surface"
                     >
                       <Plus className="h-4 w-4 mr-2" />
                       Створити новий
