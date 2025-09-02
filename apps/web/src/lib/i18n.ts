@@ -6,7 +6,7 @@ export type Locale = 'ua' | 'pl' | 'en' | 'by';
 export const DEFAULT_LOCALE: Locale = 'ua';
 
 // Available locales for content
-export const SUPPORTED_LOCALES: Locale[] = ['ua', 'pl', 'en'];
+export const SUPPORTED_LOCALES: Locale[] = ['ua', 'pl', 'en', 'by'];
 
 // Locale display names
 export const LOCALE_NAMES: Record<Locale, string> = {
