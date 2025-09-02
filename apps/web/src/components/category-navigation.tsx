@@ -244,7 +244,7 @@ export function CategoryNavigation({
                     className="h-6 w-6 p-0"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // TODO: Edit category
+                      setEditingCategory(category);
                     }}
                   >
                     <Edit className="h-3 w-3" />
@@ -256,7 +256,7 @@ export function CategoryNavigation({
                     className="h-6 w-6 p-0 text-destructive hover:text-destructive"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // TODO: Delete category
+                      handleDeleteCategory(category.id);
                     }}
                   >
                     <Trash2 className="h-3 w-3" />
