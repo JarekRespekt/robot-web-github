@@ -171,23 +171,28 @@ export default function MenuPage() {
             </Card>
           ) : (
             <div className="space-y-6">
-              {/* Category Header */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold robot-ink">
-                    {selectedCategory.name.ua}
-                  </h2>
-                  <p className="text-muted-foreground">
-                    {categoryItems.length} {categoryItems.length === 1 ? 'страва' : 'страв'} у категорії
-                  </p>
+              {/* Category Header */}              
+              <div className="bg-surface rounded-lg p-6 shadow-sm border">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-ink">
+                      {selectedCategory.name.ua}
+                    </h2>
+                    <p className="text-muted-foreground mt-1">
+                      {categoryItems.length} {categoryItems.length === 1 ? 'страва' : 'страв'} у категорії
+                    </p>
+                  </div>
+                  
+                  <Button 
+                    asChild 
+                    className="bg-primary text-white hover:opacity-90 cursor-pointer"
+                  >
+                    <Link href={`/menu/item/new?category=${selectedCategoryId}`}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Додати страву
+                    </Link>
+                  </Button>
                 </div>
-                
-                <Button asChild>
-                  <Link href={`/menu/item/new?category=${selectedCategoryId}`}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Додати страву
-                  </Link>
-                </Button>
               </div>
 
               {/* Items Table */}
