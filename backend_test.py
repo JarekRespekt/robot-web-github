@@ -41,12 +41,14 @@ TEST_ITEM = {
     "name": {
         "ua": "Тестовий товар",
         "pl": "Produkt testowy",
-        "en": "Test Item"
+        "en": "Test Item",
+        "by": "Тэставы тавар"
     },
     "description": {
         "ua": "Опис тестового товару",
         "pl": "Opis produktu testowego", 
-        "en": "Test item description"
+        "en": "Test item description",
+        "by": "Апісанне тэставага тавару"
     },
     "price": 25.99,
     "packaging_price": 2.50,
