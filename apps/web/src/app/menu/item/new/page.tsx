@@ -101,9 +101,16 @@ function CreateItemContent() {
   const onSubmit = async (data: ItemFormData) => {
     try {
       await createItem.mutateAsync({
-        ...data,
+        category_id: data.category_id,
+        name: data.name,
+        description: data.description,
+        price: data.price,
         packaging_price: data.packaging_price || 0,
-        photo_url: data.photo_url || undefined,
+        available: data.available,
+        photo: data.photo_url ? {
+          public_id: '',
+          url: data.photo_url,
+        } : undefined,
       });
     } catch (error) {
       // Error handling is done in the mutation
