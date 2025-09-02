@@ -1,6 +1,6 @@
 import type { I18nStr } from '@/types/robot';
 
-export type Locale = 'ua' | 'pl' | 'en';
+export type Locale = 'ua' | 'pl' | 'en' | 'by';
 
 // Default locale for admin UI
 export const DEFAULT_LOCALE: Locale = 'ua';
