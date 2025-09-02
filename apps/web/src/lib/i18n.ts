@@ -46,6 +46,7 @@ export function createEmptyI18nStr(): I18nStr {
     ua: '',
     pl: '',
     en: '',
+    by: '',
   };
 }
 
