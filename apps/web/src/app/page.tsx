@@ -38,17 +38,39 @@ export default function HomePage() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button asChild size="lg" className="bg-primary text-white rounded-lg shadow-card hover:opacity-90 text-lg px-8 py-4">
+            <Button 
+              asChild 
+              size="lg" 
+              className="bg-primary text-white rounded-lg shadow-card hover:opacity-90 text-lg px-8 py-4"
+            >
               <Link href="/login">
-                Увійти до системи
+                Увійти
                 <ChevronRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             
-            <Button asChild variant="outline" size="lg" className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4">
-              <Link href="/login">
-                Почати роботу
-              </Link>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+              onClick={() => {
+                // TODO: Add "Learn More" functionality
+                console.log('Learn more clicked');
+              }}
+            >
+              Дізнатись більше
+            </Button>
+
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+              onClick={() => {
+                // TODO: Add "How to start" functionality
+                console.log('How to start clicked');
+              }}
+            >
+              Як розпочати?
             </Button>
           </div>
 
