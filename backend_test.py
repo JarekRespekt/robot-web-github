@@ -474,6 +474,7 @@ class RobotApiTester:
             self.test_items_api()
             self.test_locations_api()
             self.test_media_api()
+            self.test_phase3_enhancements()
             self.test_error_handling()
         finally:
             self.cleanup()
