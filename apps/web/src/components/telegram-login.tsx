@@ -78,6 +78,7 @@ export function TelegramLogin({
     script.setAttribute('data-size', 'large');
     script.setAttribute('data-onauth', 'TelegramLoginWidget.dataOnauth(user)');
     script.setAttribute('data-request-access', 'write');
+    script.setAttribute('data-lang', 'uk'); // Ukrainian locale
 
     containerRef.current.appendChild(script);
 
