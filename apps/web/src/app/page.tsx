@@ -8,20 +8,19 @@ export default function HomePage() {
     <div className="min-h-screen bg-surface">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-surface to-primary/5">
-        <div className="container mx-auto px-6 py-20 text-center">
-          {/* ROBOT Logo & Mascot */}
-          <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-primary rounded-full shadow-card mb-6">
-              <span className="text-4xl">🤖</span>
-              <span className="text-2xl absolute -top-1 -right-1">👨‍🍳</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">
-              ROBOT
-            </h1>
-            
-            <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
-          </div>
+        <div className="container mx-auto px-6 py-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="text-center lg:text-left">
+              {/* Logo and Title */}
+              <div className="mb-8">
+                <div className="inline-flex items-center justify-center w-24 h-24 bg-primary rounded-full shadow-card mb-6">
+                  <span className="text-4xl">🤖</span>
+                  <span className="text-2xl absolute -top-1 -right-1">👨‍🍳</span>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">ROBOT</h1>
+                <div className="w-24 h-1 bg-primary mx-auto lg:mx-0 rounded-full"></div>
+              </div>
 
           {/* Main Description */}
           <div className="max-w-4xl mx-auto mb-12">
