@@ -31,7 +31,8 @@ TEST_CATEGORY = {
     "name": {
         "ua": "Тестова категорія",
         "pl": "Kategoria testowa", 
-        "en": "Test Category"
+        "en": "Test Category",
+        "by": "Тэставая катэгорыя"
     },
     "visible": True
 }
