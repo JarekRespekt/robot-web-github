@@ -233,35 +233,79 @@ function NewItemForm() {
               />
 
               {/* Pricing */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="price">Ціна (грн)</Label>
-                  <Input
-                    {...register('price', { valueAsNumber: true })}
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    disabled={isSubmitting}
-                  />
-                  {errors.price && (
-                    <p className="text-sm text-destructive">{errors.price.message}</p>
-                  )}
-                </div>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-ink">Ціноутворення</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="price">Основна ціна *</Label>
+                    <div className="relative">
+                      <Input
+                        {...register('price', { valueAsNumber: true })}
+                        type="text"
+                        inputMode="decimal"
+                        placeholder="150"
+                        disabled={isSubmitting}
+                        className="pr-12 w-full"
+                        onInput={(e) => {
+                          // Only allow numbers and one decimal point
+                          const value = e.currentTarget.value.replace(/[^\d.]/g, '');
+                          const parts = value.split('.');
+                          if (parts.length > 2) {
+                            e.currentTarget.value = parts[0] + '.' + parts.slice(1).join('');
+                          } else {
+                            e.currentTarget.value = value;
+                          }
+                        }}
+                      />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                        грн
+                      </span>
+                    </div>
+                    {errors.price && (
+                      <p className="text-sm text-destructive">{errors.price.message}</p>
+                    )}
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="packaging_price">Упаковка (грн)</Label>
-                  <Input
-                    {...register('packaging_price', { valueAsNumber: true })}
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00 (необов'язково)"
-                    disabled={isSubmitting}
-                  />
-                  {errors.packaging_price && (
-                    <p className="text-sm text-destructive">{errors.packaging_price.message}</p>
-                  )}
+                  <div className="space-y-2">
+                    <Label htmlFor="packaging_price">Упаковка</Label>
+                    <div className="relative">
+                      <Input
+                        {...register('packaging_price', { valueAsNumber: true })}
+                        type="text"
+                        inputMode="decimal"
+                        placeholder="15"
+                        disabled={isSubmitting}
+                        className="pr-12 w-full"
+                        onInput={(e) => {
+                          // Only allow numbers and one decimal point
+                          const value = e.currentTarget.value.replace(/[^\d.]/g, '');
+                          const parts = value.split('.');
+                          if (parts.length > 2) {
+                            e.currentTarget.value = parts[0] + '.' + parts.slice(1).join('');
+                          } else {
+                            e.currentTarget.value = value;
+                          }
+                        }}
+                      />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                        грн
+                      </span>
+                    </div>
+                    {errors.packaging_price && (
+                      <p className="text-sm text-destructive">{errors.packaging_price.message}</p>
+                    )}
+                    <p className="text-xs text-muted-foreground">Додаткова плата за упаковку (необов'язково)</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground">Разом</Label>
+                    <div className="flex items-center h-10 px-3 bg-surface rounded-md border">
+                      <span className="text-lg font-medium text-ink">
+                        {((watch('price') || 0) + (watch('packaging_price') || 0)).toFixed(2)} грн
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Загальна вартість для клієнта</p>
+                  </div>
                 </div>
               </div>
 
