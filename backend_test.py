@@ -233,11 +233,9 @@ class RobotApiTester:
         
         # PATCH /categories/reorder - test reorder functionality
         if self.created_category_id:
-            reorder_data = {
-                "categories": [
-                    {"id": self.created_category_id, "order": 1}
-                ]
-            }
+            reorder_data = [
+                {"id": self.created_category_id, "order": 1}
+            ]
             result = self.make_request("PATCH", "/categories/reorder", reorder_data)
             self.log_result(result)
         
