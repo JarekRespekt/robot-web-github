@@ -6,6 +6,8 @@ import { AdminHeader } from '@/components/admin-header';
 import { AdminSidebar } from '@/components/admin-sidebar';
 import { CategoryNavigation } from '@/components/category-navigation'; 
 import { ItemsTable } from '@/components/items-table';
+import { LocationsSettingsView } from '@/components/locations-settings-view';
+import { DeliverySettingsView } from '@/components/delivery-settings-view';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
