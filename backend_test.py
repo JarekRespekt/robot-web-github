@@ -15,7 +15,7 @@ from dataclasses import dataclass
 
 # API Configuration
 BASE_URL = "https://robot-api-app-cc4d4f828ab6.herokuapp.com"
-API_BASE = f"{BASE_URL}/api"
+API_BASE = BASE_URL  # API endpoints are at root level, not under /api
 
 # Test Data
 TEST_TELEGRAM_USER = {
