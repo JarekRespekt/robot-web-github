@@ -100,15 +100,20 @@ export default function MenuPage() {
         {/* Main Sidebar */}
         <AdminSidebar 
           onMenuClick={handleMenuToggle}
-          isMenuOpen={isMenuOpen}
+          onLocationClick={handleLocationClick}
+          onDeliveryClick={handleDeliveryClick}
+          isMenuOpen={isMenuOpen && currentView === 'menu'}
+          currentView={currentView}
         />
 
-        {/* Category Navigation */}
-        <CategoryNavigation 
-          isOpen={isMenuOpen}
-          selectedCategoryId={selectedCategoryId}
-          onSelectCategory={setSelectedCategoryId}
-        />
+        {/* Category Navigation - Only show for menu */}
+        {currentView === 'menu' && (
+          <CategoryNavigation 
+            isOpen={isMenuOpen}
+            selectedCategoryId={selectedCategoryId}
+            onSelectCategory={setSelectedCategoryId}
+          />
+        )}
 
         {/* Main Content Area */}
         <main className="flex-1 overflow-auto bg-gray-50/30">
