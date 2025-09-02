@@ -42,12 +42,16 @@ export function CategoryNavigation({
   } = useCategories();
 
   const createCategory = useCreateCategory({
-    onSuccess: () => {
+    onSuccess: (newCategory) => {
       toast({
         title: 'Успіх!',
         description: 'Категорію створено успішно',
         variant: 'success',
       });
+      // Auto-select the new category
+      if (newCategory?.id) {
+        onSelectCategory(newCategory.id);
+      }
     },
     onError: (error) => {
       toast({
