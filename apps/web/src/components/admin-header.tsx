@@ -40,19 +40,8 @@ export function AdminHeader({
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Left Section - Restaurant Selector */}
-          <div className="flex items-center space-x-4">
-            {/* ROBOT Logo */}
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white rounded-md flex items-center justify-center shadow-sm">
-                <span className="text-primary text-xl">🤖</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-white">ROBOT Admin</h1>
-                <p className="text-sm text-primary-foreground/80">Управління рестораном</p>
-              </div>
-            </div>
-
-            {/* Restaurant Selector */}
+          <div className="flex items-center space-x-6">
+            {/* Restaurant Selector - MOVED TO LEFT */}
             <div className="flex items-center space-x-2">
               <Select value={selectedRestaurant} onValueChange={setSelectedRestaurant}>
                 <SelectTrigger className="w-64 bg-white border-white/20 text-ink">
