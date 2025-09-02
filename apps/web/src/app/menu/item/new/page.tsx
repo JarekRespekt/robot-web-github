@@ -1,54 +1,74 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { I18nInput } from '@/components/i18n-input';
+import { Separator } from '@/components/ui/separator';
 import { ImageUploader } from '@/components/image-uploader';
 import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 import { useCategories, useCreateItem } from '@/lib/robot-queries';
 import { useToast } from '@/hooks/use-toast';
-import { createEmptyI18nStr, validateRequiredI18n } from '@/lib/i18n';
+import { createEmptyI18nStr, LOCALE_FLAGS, LOCALE_NAMES } from '@/lib/i18n';
 import robotApi from '@/lib/robot-api';
 import Link from 'next/link';
-import type { I18nStr, CreateItemRequest } from '@/types/robot';
+import type { I18nStr } from '@/types/robot';
 
-// Zod schema for form validation
-const createItemSchema = z.object({
+const itemSchema = z.object({
   category_id: z.string().min(1, 'Оберіть категорію'),
-  name: z.custom<I18nStr>(),
-  description: z.custom<I18nStr>(),
-  price: z.number().min(0, 'Ціна повинна бути додатною').max(10000, 'Ціна занадто велика'),
-  packaging_price: z.number().min(0, 'Ціна упаковки повинна бути додатною').optional(),
+  name: z.object({
+    ua: z.string().min(1, 'Назва українською обов\'язкова'),
+    pl: z.string().min(1, 'Назва польською обов\'язкова'),
+    en: z.string().min(1, 'Назва англійською обов\'язкова'),
+    by: z.string().min(1, 'Назва білоруською обов\'язкова'),
+  }),
+  description: z.object({
+    ua: z.string(),
+    pl: z.string(),
+    en: z.string(),
+    by: z.string(),
+  }),
+  price: z.number().min(0, 'Ціна повинна бути позитивною'),
+  packaging_price: z.number().min(0, 'Ціна упаковки повинна бути позитивною').optional(),
+  photo_url: z.string().url('Невірне посилання на фото').optional().or(z.literal('')),
   available: z.boolean(),
-  photo: z.object({
-    public_id: z.string(),
-    url: z.string(),
-  }).optional(),
 });
 
-type FormData = z.infer<typeof createItemSchema>;
+type ItemFormData = z.infer<typeof itemSchema>;
 
-function NewItemForm() {
+function CreateItemContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
-
-  const preselectedCategory = searchParams.get('category');
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   const { data: categories, isLoading: categoriesLoading } = useCategories();
-  const createItem = useCreateItem();
-
-  const [nameErrors, setNameErrors] = useState<string[]>([]);
-  const [descriptionErrors, setDescriptionErrors] = useState<string[]>([]);
+  
+  const createItem = useCreateItem({
+    onSuccess: () => {
+      toast({
+        title: 'Успіх!',
+        description: 'Страву створено успішно',
+        variant: 'success',
+      });
+      router.push('/menu');
+    },
+    onError: (error) => {
+      toast({
+        title: 'Помилка',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
 
   const {
     register,
@@ -57,127 +77,88 @@ function NewItemForm() {
     watch,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: zodResolver(createItemSchema),
+  } = useForm<ItemFormData>({
+    resolver: zodResolver(itemSchema),
     defaultValues: {
-      category_id: preselectedCategory || '',
+      category_id: searchParams.get('category') || '',
       name: createEmptyI18nStr(),
       description: createEmptyI18nStr(),
       price: 0,
-      packaging_price: undefined,
+      packaging_price: 0,
+      photo_url: '',
       available: true,
-      photo: undefined,
     },
   });
 
-  const watchedName = watch('name');
-  const watchedDescription = watch('description');
-
-  // Validate i18n fields on change
-  useEffect(() => {
-    const nameValidation = validateRequiredI18n(watchedName);
-    setNameErrors(nameValidation);
-  }, [watchedName]);
+  const watchedPrice = watch('price') || 0;
+  const watchedPackagingPrice = watch('packaging_price') || 0;
+  const totalPrice = watchedPrice + watchedPackagingPrice;
 
   useEffect(() => {
-    const descriptionValidation = validateRequiredI18n(watchedDescription, []);
-    setDescriptionErrors(descriptionValidation);
-  }, [watchedDescription]);
+    setValue('photo_url', imageUrl);
+  }, [imageUrl, setValue]);
 
-  // Check authentication
-  useEffect(() => {
-    if (!robotApi.isAuthenticated()) {
-      router.push('/auth-group/login');
-    }
-  }, [router]);
-
-  const onSubmit = async (data: FormData) => {
-    // Final validation for i18n fields
-    const nameValidation = validateRequiredI18n(data.name);
-    if (nameValidation.length > 0) {
-      setNameErrors(nameValidation);
-      toast({
-        title: 'Помилка валідації',
-        description: 'Заповніть назву українською мовою',
-        variant: 'destructive',
-      });
-      return;
-    }
-
+  const onSubmit = async (data: ItemFormData) => {
     try {
-      const itemData: CreateItemRequest = {
-        category_id: data.category_id,
-        name: data.name,
-        description: data.description,
-        price: data.price,
-        packaging_price: data.packaging_price || undefined,
-        available: data.available,
-        photo: data.photo,
-      };
-
-      await createItem.mutateAsync(itemData);
-
-      toast({
-        title: 'Успіх!',
-        description: 'Страву створено успішно',
-        variant: 'success',
+      await createItem.mutateAsync({
+        ...data,
+        packaging_price: data.packaging_price || 0,
+        photo_url: data.photo_url || undefined,
       });
-
-      router.push('/menu');
     } catch (error) {
-      toast({
-        title: 'Помилка',
-        description: error instanceof Error ? error.message : 'Не вдалося створити страву',
-        variant: 'destructive',
-      });
+      // Error handling is done in the mutation
     }
   };
 
-  if (categoriesLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-robot-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Завантаження...</p>
-        </div>
-      </div>
-    );
-  }
+  const languageFields = [
+    { key: 'ua' as const, name: 'Українська', flag: '🇺🇦' },
+    { key: 'pl' as const, name: 'Польська', flag: '🇵🇱' },
+    { key: 'en' as const, name: 'Англійська', flag: '🇺🇸' },
+    { key: 'by' as const, name: 'Білоруська', flag: '🇧🇾' },
+  ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="bg-surface border-b border-border">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <h1 className="text-2xl font-bold text-ink">Створення нової страви</h1>
-          <p className="text-muted-foreground mt-1">Додайте інформацію про нову страву до меню</p>
-        </div>
-      </div>
-      
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="flex-1 overflow-auto bg-gray-50/30">
+      <div className="p-6 space-y-6">
         {/* Header */}
-        <div className="flex items-center space-x-4">
-          <Button variant="outline" size="sm" asChild>
+        <div className="flex items-center space-x-6">
+          <Button
+            variant="outline"
+            size="sm"
+            asChild
+            className="cursor-pointer"
+          >
             <Link href="/menu">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Назад до меню
             </Link>
           </Button>
+          
+          <div>
+            <h1 className="text-2xl font-bold text-ink">Створення нової страви</h1>
+            <p className="text-muted-foreground mt-1">Додайте інформацію про нову страву до меню</p>
+          </div>
         </div>
 
-        {/* Main Form */}
-        <Card className="shadow-card border-0">
-          <CardContent className="p-8">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Main Information Card */}
+          <Card className="shadow-card border-0">
+            <CardContent className="p-6 space-y-6">
+              <div className="flex items-center space-x-2 pb-2">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <h2 className="text-lg font-semibold text-ink">Основна інформація</h2>
+              </div>
+
               {/* Category Selection */}
               <div className="space-y-2">
-                <Label htmlFor="category">Категорія</Label>
+                <Label htmlFor="category">Категорія *</Label>
                 <Controller
                   name="category_id"
                   control={control}
                   render={({ field }) => (
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Оберіть категорію" />
+                    <Select value={field.value} onValueChange={field.onChange} disabled={categoriesLoading}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Оберіть категорію..." />
                       </SelectTrigger>
                       <SelectContent>
                         {categories?.map((category) => (
@@ -194,154 +175,181 @@ function NewItemForm() {
                 )}
               </div>
 
-              {/* Name (i18n) */}
-              <Controller
-                name="name"
-                control={control}
-                render={({ field }) => (
-                  <I18nInput
-                    label="Назва страви"
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="Введіть назву страви"
-                    required
-                    error={nameErrors.length > 0 ? nameErrors[0] : undefined}
-                    description="Назва страви різними мовами"
-                  />
-                )}
-              />
-
-              {/* Description (i18n) */}
-              <Controller
-                name="description"
-                control={control}
-                render={({ field }) => (
-                  <I18nInput
-                    label="Опис страви"
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="Опишіть страву"
-                    multiline
-                    rows={4}
-                    description="Детальний опис інгредієнтів та способу приготування"
-                  />
-                )}
-              />
-
-              {/* Pricing */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-ink">Ціноутворення</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="price">Основна ціна *</Label>
-                    <div className="relative">
-                      <Input
-                        {...register('price', { valueAsNumber: true })}
-                        type="text"
-                        inputMode="decimal"
-                        placeholder="150"
-                        disabled={isSubmitting}
-                        className="pr-12 w-full"
-                        onInput={(e) => {
-                          // Only allow numbers and one decimal point
-                          const value = e.currentTarget.value.replace(/[^\d.]/g, '');
-                          const parts = value.split('.');
-                          if (parts.length > 2) {
-                            e.currentTarget.value = parts[0] + '.' + parts.slice(1).join('');
-                          } else {
-                            e.currentTarget.value = value;
-                          }
-                        }}
-                      />
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                        грн
-                      </span>
-                    </div>
-                    {errors.price && (
-                      <p className="text-sm text-destructive">{errors.price.message}</p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="packaging_price">Упаковка</Label>
-                    <div className="relative">
-                      <Input
-                        {...register('packaging_price', { valueAsNumber: true })}
-                        type="text"
-                        inputMode="decimal"
-                        placeholder="15"
-                        disabled={isSubmitting}
-                        className="pr-12 w-full"
-                        onInput={(e) => {
-                          // Only allow numbers and one decimal point
-                          const value = e.currentTarget.value.replace(/[^\d.]/g, '');
-                          const parts = value.split('.');
-                          if (parts.length > 2) {
-                            e.currentTarget.value = parts[0] + '.' + parts.slice(1).join('');
-                          } else {
-                            e.currentTarget.value = value;
-                          }
-                        }}
-                      />
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                        грн
-                      </span>
-                    </div>
-                    {errors.packaging_price && (
-                      <p className="text-sm text-destructive">{errors.packaging_price.message}</p>
-                    )}
-                    <p className="text-xs text-muted-foreground">Додаткова плата за упаковку (необов'язково)</p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className="text-muted-foreground">Разом</Label>
-                    <div className="flex items-center h-10 px-3 bg-surface rounded-md border">
-                      <span className="text-lg font-medium text-ink">
-                        {((watch('price') || 0) + (watch('packaging_price') || 0)).toFixed(2)} грн
-                      </span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Загальна вартість для клієнта</p>
-                  </div>
+              {/* Availability Switch */}
+              <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-surface/50">
+                <div>
+                  <Label htmlFor="available" className="text-base font-medium">Доступна для замовлення</Label>
+                  <p className="text-sm text-muted-foreground">Чи можуть клієнти замовляти цю страву</p>
                 </div>
-              </div>
-
-              {/* Photo Upload */}
-              <div className="space-y-2">
-                <Label>Фото страви</Label>
-                <Controller
-                  name="photo"
-                  control={control}
-                  render={({ field }) => (
-                    <ImageUploader
-                      value={field.value}
-                      onChange={field.onChange}
-                      disabled={isSubmitting}
-                    />
-                  )}
-                />
-              </div>
-
-              {/* Availability */}
-              <div className="flex items-center space-x-2">
                 <Controller
                   name="available"
                   control={control}
                   render={({ field }) => (
                     <Switch
+                      id="available"
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      disabled={isSubmitting}
                     />
                   )}
                 />
-                <Label htmlFor="available">Доступна для замовлення</Label>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Multi-language Names */}
+          <Card className="shadow-card border-0">
+            <CardContent className="p-6 space-y-6">
+              <div className="flex items-center space-x-2 pb-2">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <h2 className="text-lg font-semibold text-ink">Назва страви</h2>
               </div>
 
-              {/* Submit Actions */}
-              <div className="flex items-center justify-end space-x-4 pt-6 border-t border-border">
-                <Button 
-                  type="button" 
-                  variant="outline" 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {languageFields.map((lang) => (
+                  <div key={lang.key} className="space-y-2">
+                    <Label htmlFor={`name-${lang.key}`} className="flex items-center space-x-2">
+                      <span>{lang.flag}</span>
+                      <span>{lang.name} *</span>
+                    </Label>
+                    <Input
+                      id={`name-${lang.key}`}
+                      {...register(`name.${lang.key}`)}
+                      placeholder={`Введіть назву ${lang.name.toLowerCase()}...`}
+                      disabled={isSubmitting}
+                    />
+                    {errors.name?.[lang.key] && (
+                      <p className="text-sm text-destructive">{errors.name[lang.key]?.message}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Multi-language Descriptions */}
+          <Card className="shadow-card border-0">
+            <CardContent className="p-6 space-y-6">
+              <div className="flex items-center space-x-2 pb-2">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <h2 className="text-lg font-semibold text-ink">Опис страви</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {languageFields.map((lang) => (
+                  <div key={lang.key} className="space-y-2">
+                    <Label htmlFor={`desc-${lang.key}`} className="flex items-center space-x-2">
+                      <span>{lang.flag}</span>
+                      <span>{lang.name}</span>
+                    </Label>
+                    <Textarea
+                      id={`desc-${lang.key}`}
+                      {...register(`description.${lang.key}`)}
+                      placeholder={`Опишіть страву ${lang.name.toLowerCase()}...`}
+                      disabled={isSubmitting}
+                      rows={3}
+                    />
+                    {errors.description?.[lang.key] && (
+                      <p className="text-sm text-destructive">{errors.description[lang.key]?.message}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Pricing */}
+          <Card className="shadow-card border-0">
+            <CardContent className="p-6 space-y-6">
+              <div className="flex items-center space-x-2 pb-2">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <h2 className="text-lg font-semibold text-ink">Ціноутворення</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="price">Основна ціна *</Label>
+                  <div className="relative">
+                    <Input
+                      id="price"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      {...register('price', { valueAsNumber: true })}
+                      placeholder="150.00"
+                      disabled={isSubmitting}
+                      className="pr-12"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                      грн
+                    </span>
+                  </div>
+                  {errors.price && (
+                    <p className="text-sm text-destructive">{errors.price.message}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="packaging_price">Упаковка</Label>
+                  <div className="relative">
+                    <Input
+                      id="packaging_price"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      {...register('packaging_price', { valueAsNumber: true })}
+                      placeholder="15.00"
+                      disabled={isSubmitting}
+                      className="pr-12"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                      грн
+                    </span>
+                  </div>
+                  {errors.packaging_price && (
+                    <p className="text-sm text-destructive">{errors.packaging_price.message}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground">Додаткова плата за упаковку</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-muted-foreground">Загальна вартість</Label>
+                  <div className="flex items-center h-10 px-3 bg-surface rounded-md border">
+                    <span className="text-lg font-semibold text-ink">
+                      {totalPrice.toFixed(2)} грн
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Вартість для клієнта</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Photo Upload */}
+          <Card className="shadow-card border-0">
+            <CardContent className="p-6 space-y-6">
+              <div className="flex items-center space-x-2 pb-2">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <h2 className="text-lg font-semibold text-ink">Фото страви</h2>
+              </div>
+
+              <ImageUploader
+                onImageUpload={setImageUrl}
+                currentImageUrl={imageUrl}
+                disabled={isSubmitting}
+              />
+              {errors.photo_url && (
+                <p className="text-sm text-destructive">{errors.photo_url.message}</p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Actions */}
+          <Card className="shadow-card border-0">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-end space-x-4">
+                <Button
+                  type="button"
+                  variant="outline"
                   onClick={() => router.push('/menu')}
                   disabled={isSubmitting}
                   className="cursor-pointer"
@@ -349,10 +357,10 @@ function NewItemForm() {
                   Скасувати
                 </Button>
                 
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting || nameErrors.length > 0}
-                  className="bg-primary text-white hover:opacity-90 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-primary text-white hover:opacity-90 cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
@@ -367,22 +375,24 @@ function NewItemForm() {
                   )}
                 </Button>
               </div>
-            </form>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </form>
       </div>
     </div>
   );
 }
 
 export default function NewItemPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-robot-primary" />
-      </div>
-    }>
-      <NewItemForm />
-    </Suspense>
-  );
+  const router = useRouter();
+
+  // Check authentication
+  useEffect(() => {
+    if (!robotApi.isAuthenticated()) {
+      router.push('/auth-group/login');
+      return;
+    }
+  }, [router]);
+
+  return <CreateItemContent />;
 }
