@@ -340,8 +340,8 @@ function CreateItemContent() {
               </div>
 
               <ImageUploader
-                onImageUpload={setImageUrl}
-                currentImageUrl={imageUrl}
+                value={imageUrl ? { public_id: '', url: imageUrl } : undefined}
+                onChange={(image) => setImageUrl(image?.url || '')}
                 disabled={isSubmitting}
               />
               {errors.photo_url && (
