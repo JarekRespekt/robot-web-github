@@ -116,12 +116,7 @@ export function LocationsSettingsView() {
 
     try {
       const updateData = {
-        name: {
-          ua: data.name,
-          pl: data.name,
-          en: data.name,
-          by: data.name,
-        },
+        name: data.name,
         address: data.address,
         phone: data.phone,
         hours: data.hours,
