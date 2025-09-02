@@ -70,33 +70,36 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="min-h-screen bg-robot-surface">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white border-b border-border px-4 py-3 robot-card-shadow">
+      <header className="bg-surface border-b border-border px-6 py-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button
               variant="ghost" 
               size="sm"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden"
+              className="lg:hidden cursor-pointer"
             >
               <MenuIcon className="h-5 w-5" />
             </Button>
             
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-robot-primary rounded-robot-sm flex items-center justify-center">
-                <span className="text-white text-lg">🤖</span>
+              <div className="w-10 h-10 bg-primary rounded-md flex items-center justify-center shadow-sm">
+                <span className="text-white text-xl">🤖</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold robot-ink">ROBOT Admin</h1>
+                <h1 className="text-xl font-bold text-ink">ROBOT Admin</h1>
                 <p className="text-sm text-muted-foreground">Управління меню</p>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Button asChild>
+          <div className="flex items-center space-x-3">
+            <Button 
+              asChild 
+              className="bg-primary text-white hover:opacity-90 cursor-pointer shadow-sm"
+            >
               <Link href="/menu/item/new">
                 <Plus className="h-4 w-4 mr-2" />
                 Додати страву
@@ -109,6 +112,7 @@ export default function MenuPage() {
                 await robotApi.logout();
                 router.push('/auth-group/login');
               }}
+              className="cursor-pointer"
             >
               Вихід
             </Button>
