@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { CategoryModal } from '@/components/category-modal';
 import { 
   Search, 
   Plus, 
@@ -14,7 +15,7 @@ import {
   Trash2,
   Loader2
 } from 'lucide-react';
-import { useCategories, useCreateCategory } from '@/lib/robot-queries';
+import { useCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from '@/lib/robot-queries';
 import { useToast } from '@/hooks/use-toast';
 import { getLocalizedText } from '@/lib/i18n';
 import type { Category } from '@/types/robot';
