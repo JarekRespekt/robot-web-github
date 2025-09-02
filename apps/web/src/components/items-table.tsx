@@ -93,11 +93,11 @@ export function ItemsTable({ items, loading = false, onRefetch }: ItemsTableProp
 
   if (loading) {
     return (
-      <Card>
+      <Card className="shadow-card">
         <CardContent className="pt-6">
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
-              <Loader2 className="h-8 w-8 animate-spin text-robot-primary mx-auto mb-4" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
               <p className="text-muted-foreground">Завантаження страв...</p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export function ItemsTable({ items, loading = false, onRefetch }: ItemsTableProp
   }
 
   return (
-    <Card className="robot-card-shadow">
+    <Card className="shadow-card">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>Страви у категорії</CardTitle>
@@ -146,7 +146,7 @@ export function ItemsTable({ items, loading = false, onRefetch }: ItemsTableProp
                 <p className="text-muted-foreground mb-4">
                   Почніть з додавання першої страви до меню
                 </p>
-                <Button asChild>
+                <Button asChild className="bg-primary text-white rounded-lg shadow-card hover:opacity-90">
                   <Link href="/menu/item/new">
                     <Plus className="h-4 w-4 mr-2" />
                     Додати страву
@@ -173,7 +173,7 @@ export function ItemsTable({ items, loading = false, onRefetch }: ItemsTableProp
                   <TableRow key={item.id} className="group">
                     {/* Photo */}
                     <TableCell>
-                      <div className="w-10 h-10 rounded-robot-sm overflow-hidden bg-muted flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-md overflow-hidden bg-muted flex items-center justify-center">
                         {item.photo ? (
                           <img
                             src={item.photo.url}
