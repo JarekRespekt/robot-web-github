@@ -38,7 +38,7 @@ const itemSchema = z.object({
   }),
   price: z.number().min(0, 'Ціна повинна бути позитивною'),
   packaging_price: z.number().min(0, 'Ціна упаковки повинна бути позитивною').optional(),
-  photo_url: z.string().url('Невірне посилання на фото').optional().or(z.literal('')),
+  photo_url: z.string().optional(),
   available: z.boolean(),
 });
 
