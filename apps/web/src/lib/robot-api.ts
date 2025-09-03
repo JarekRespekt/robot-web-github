@@ -236,11 +236,17 @@ class RobotApiClient {
   }
 
   // Media
-  async signUpload(): Promise<ApiResponse<CloudinarySignResponse>> {
-    return this.request<CloudinarySignResponse>('/media/sign-upload', {
-      method: 'POST',
-    });
-  }
+  async signUpload(folder: string = 'robot/menu'): Promise<ApiResponse<CloudinarySignResponse>> {
+  return this.request<CloudinarySignResponse>('/media/sign-upload', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      folder: folder
+    }),
+  });
+}
 
   // Utility methods
   isAuthenticated(): boolean {
