@@ -187,7 +187,13 @@ export default function HomePage() {
 
             <div className="mt-12 p-6 bg-white rounded-lg shadow-card border border-primary/20">
               <div className="flex items-center justify-center mb-4">
-                <span className="text-3xl mr-3">🤖</span>
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                    alt="ROBOT"
+                    className="w-10 h-10 object-cover rounded-full"
+                  />
+                </div>
                 <span className="text-2xl">👨‍🍳</span>
               </div>
               <p className="text-ink/70">
