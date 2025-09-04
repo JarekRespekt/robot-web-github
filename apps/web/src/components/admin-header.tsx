@@ -84,7 +84,7 @@ export function AdminHeader({
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">ROBOT Admin</h1>
+                <h1 className="text-xl font-bold text-white">R...OBOT Admin</h1>
                 <p className="text-sm text-primary-foreground/80">Управління рестораном</p>
               </div>
             </div>
