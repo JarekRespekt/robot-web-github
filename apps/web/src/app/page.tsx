@@ -166,14 +166,14 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary/5">
+      <section id="ready-to-start" className="py-20 bg-surface">
         <div className="container mx-auto px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-ink mb-6">
               Готові розпочати?
             </h2>
             <p className="text-lg text-ink/70 mb-8">
-              Приєднуйтесь до ресторанів, які вже довіряють ROBOT
+              Приєднуйтесь до ресторанів, які вже довіряють R...OBOT
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
