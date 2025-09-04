@@ -34,6 +34,13 @@ interface FormData {
     instagram: string;
     tiktok: string;
   };
+  banking: {
+    bank_name: string;
+    account_holder: string;
+    iban: string;
+    swift: string;
+  };
+  establishment_enabled: boolean;
 }
 
 export function LocationsSettingsView() {
