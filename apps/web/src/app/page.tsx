@@ -16,9 +16,12 @@ export default function HomePage() {
             <div className="text-center lg:text-left">
               {/* Logo and Title */}
               <div className="mb-8">
-                <div className="inline-flex items-center justify-center w-24 h-24 bg-primary rounded-full shadow-card mb-6">
-                  <span className="text-4xl">🤖</span>
-                  <span className="text-2xl absolute -top-1 -right-1">👨‍🍳</span>
+                <div className="inline-flex items-center justify-center w-24 h-24 bg-white rounded-full shadow-card mb-6 overflow-hidden">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                    alt="ROBOT"
+                    className="w-20 h-20 object-cover rounded-full"
+                  />
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">ROBOT</h1>
                 <div className="w-24 h-1 bg-primary mx-auto lg:mx-0 rounded-full"></div>
@@ -50,7 +53,7 @@ export default function HomePage() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
                     // TODO: Add "Learn More" functionality
                     console.log('Learn more clicked');
@@ -62,7 +65,7 @@ export default function HomePage() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
                     // TODO: Add "How to start" functionality
                     console.log('How to start clicked');
@@ -81,9 +84,9 @@ export default function HomePage() {
             <div className="hidden lg:flex justify-center items-center">
               <div className="relative">
                 <img 
-                  src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/tulc9oo2_DALL%C2%B7E%202023-10-22%2018.22.25%20-%20Illustration%20of%20a%20cheerful%20red%20cartoonish%20robot%20peeking%20out%20from%20behind%20an%20implied%20partition%20on%20the%20right%20side.%20The%20robot%20hides%20playfully%20with%20one%20arm.png"
-                  alt="ROBOT - Червоний робот у кухарській шапці"
-                  className="w-full max-w-md h-auto object-contain"
+                  src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                  alt="ROBOT - Червоний робот-кухар"
+                  className="w-full max-w-md h-auto object-contain rounded-2xl shadow-lg"
                 />
                 {/* Accent elements */}
                 <div className="absolute -top-4 -left-4 w-16 h-16 bg-primary/20 rounded-full blur-2xl"></div>
@@ -184,7 +187,13 @@ export default function HomePage() {
 
             <div className="mt-12 p-6 bg-white rounded-lg shadow-card border border-primary/20">
               <div className="flex items-center justify-center mb-4">
-                <span className="text-3xl mr-3">🤖</span>
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                    alt="ROBOT"
+                    className="w-10 h-10 object-cover rounded-full"
+                  />
+                </div>
                 <span className="text-2xl">👨‍🍳</span>
               </div>
               <p className="text-ink/70">
@@ -199,8 +208,12 @@ export default function HomePage() {
       <footer className="py-8 bg-white border-t border-primary/10">
         <div className="container mx-auto px-6 text-center">
           <div className="flex items-center justify-center mb-4">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-2">
-              <span className="text-white text-sm">🤖</span>
+            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-2 overflow-hidden">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                alt="ROBOT"
+                className="w-6 h-6 object-cover rounded-full"
+              />
             </div>
             <span className="font-bold text-primary">ROBOT</span>
           </div>
