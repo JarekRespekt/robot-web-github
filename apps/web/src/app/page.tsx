@@ -208,8 +208,12 @@ export default function HomePage() {
       <footer className="py-8 bg-white border-t border-primary/10">
         <div className="container mx-auto px-6 text-center">
           <div className="flex items-center justify-center mb-4">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-2">
-              <span className="text-white text-sm">🤖</span>
+            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-2 overflow-hidden">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                alt="ROBOT"
+                className="w-6 h-6 object-cover rounded-full"
+              />
             </div>
             <span className="font-bold text-primary">ROBOT</span>
           </div>
