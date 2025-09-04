@@ -30,7 +30,7 @@ export default function HomePage() {
               {/* Main Description */}
               <div className="mb-12">
                 <p className="text-xl md:text-2xl text-ink/80 leading-relaxed mb-8">
-                  <strong className="text-primary">ROBOT</strong> — твій помічник у світі ресторанного бізнесу.
+                  <strong className="text-primary">R...OBOT</strong> — твій помічник у світі ресторанного бізнесу.
                 </p>
                 <p className="text-lg md:text-xl text-ink/70 leading-relaxed">
                   Це не просто софт, а цілий <span className="text-primary font-medium">цифровий асистент</span>: червоний робот у кухарській шапці, який знає, як зробити замовлення зручними, оплату — швидкою, а роботу персоналу — легшою.
