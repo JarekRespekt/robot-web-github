@@ -60,13 +60,11 @@ export default function MenuPage() {
   };
 
   const handleLocationClick = () => {
-    setCurrentView('locations');
-    setIsMenuOpen(false);
+    router.push('/settings/locations');
   };
 
   const handleDeliveryClick = () => {
-    setCurrentView('delivery');
-    setIsMenuOpen(false);
+    router.push('/settings/delivery');
   };
 
   if (categoriesError || itemsError) {
