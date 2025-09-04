@@ -387,54 +387,7 @@ export function LocationsSettingsView() {
           </CardContent>
         </Card>
 
-        {/* Social Media - Moved up */}
-        <Card className="shadow-card border-0">
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Instagram className="h-5 w-5 mr-2 text-primary" />
-              Соціальні мережі
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="facebook" className="flex items-center">
-                  <Facebook className="h-4 w-4 mr-2 text-blue-600" />
-                  Facebook
-                </Label>
-                <Input
-                  id="facebook"
-                  {...register('socials.facebook')}
-                  placeholder="https://facebook.com/your-page"
-                  disabled={isSubmitting}
-                />
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="instagram" className="flex items-center">
-                  <Instagram className="h-4 w-4 mr-2 text-pink-600" />
-                  Instagram
-                </Label>
-                <Input
-                  id="instagram"
-                  {...register('socials.instagram')}
-                  placeholder="https://instagram.com/your-profile"
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="tiktok">TikTok</Label>
-                <Input
-                  id="tiktok"
-                  {...register('socials.tiktok')}
-                  placeholder="https://tiktok.com/@your-profile"
-                  disabled={isSubmitting}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Working Hours */}
         <Card className="shadow-card border-0">
