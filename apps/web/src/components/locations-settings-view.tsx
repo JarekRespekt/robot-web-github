@@ -338,11 +338,11 @@ export function LocationsSettingsView() {
           </CardContent>
         </Card>
 
-        {/* Social Media */}
+        {/* Social Media - Moved up */}
         <Card className="shadow-card border-0">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Globe className="h-5 w-5 mr-2 text-primary" />
+              <Instagram className="h-5 w-5 mr-2 text-primary" />
               Соціальні мережі
             </CardTitle>
           </CardHeader>
