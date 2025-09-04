@@ -18,11 +18,7 @@ interface AdminSidebarProps {
 }
 
 interface AdminSidebarProps {
-  onMenuClick?: () => void;
-  onLocationClick?: () => void;
-  onDeliveryClick?: () => void;
-  isMenuOpen?: boolean;
-  currentView?: 'menu' | 'locations' | 'delivery';
+  currentView?: 'menu' | 'locations' | 'delivery' | 'orders';
 }
 
 export function AdminSidebar({ 
