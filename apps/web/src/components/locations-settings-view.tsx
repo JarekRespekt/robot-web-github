@@ -206,6 +206,88 @@ export function LocationsSettingsView() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Establishment Status */}
+        <Card className="shadow-card border-0">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <MapPin className="h-5 w-5 mr-2 text-primary" />
+              Статус закладу
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-surface/50">
+              <div>
+                <Label htmlFor="establishment_enabled" className="text-base font-medium">Заклад працює</Label>
+                <p className="text-sm text-muted-foreground">Вимкніть, якщо заклад тимчасово закритий</p>
+              </div>
+              <Switch
+                id="establishment_enabled"
+                {...register('establishment_enabled')}
+                disabled={isSubmitting}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Banking Information */}
+        <Card className="shadow-card border-0">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Globe className="h-5 w-5 mr-2 text-primary" />
+              Банківські дані
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="bank_name">Назва банку</Label>
+                <Input
+                  id="bank_name"
+                  {...register('banking.bank_name')}
+                  placeholder="ПриватБанк"
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="account_holder">Власник рахунку</Label>
+                <Input
+                  id="account_holder"
+                  {...register('banking.account_holder')}
+                  placeholder="ФОП Іваненко Іван Іванович"
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="iban">IBAN рахунок</Label>
+                <Input
+                  id="iban"
+                  {...register('banking.iban')}
+                  placeholder="UA213223130000026007233566001"
+                  disabled={isSubmitting}
+                  maxLength={29}
+                />
+                <p className="text-xs text-muted-foreground">Міжнародний номер банківського рахунку</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="swift">SWIFT код</Label>
+                <Input
+                  id="swift"
+                  {...register('banking.swift')}
+                  placeholder="PBANUA2X"
+                  disabled={isSubmitting}
+                  maxLength={11}
+                />
+                <p className="text-xs text-muted-foreground">Міжнародний банківський код</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* General Information */}
         <Card className="shadow-card border-0">
           <CardHeader>
