@@ -215,7 +215,7 @@ export default function HomePage() {
                 className="w-6 h-6 object-cover rounded-full"
               />
             </div>
-            <span className="font-bold text-primary">ROBOT</span>
+            <span className="font-bold text-primary">R...OBOT</span>
           </div>
           <p className="text-sm text-ink/60">
             © 2024 ROBOT. Ваш цифровий асистент ресторану.
