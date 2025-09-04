@@ -22,12 +22,9 @@ interface AdminSidebarProps {
 }
 
 export function AdminSidebar({ 
-  onMenuClick, 
-  onLocationClick,
-  onDeliveryClick,
-  isMenuOpen = false,
   currentView = 'menu'
 }: AdminSidebarProps) {
+  const router = useRouter();
   const pathname = usePathname();
 
   const navigationItems = [
@@ -35,7 +32,7 @@ export function AdminSidebar({
       id: 'menu',
       label: 'Меню',
       icon: MenuIcon,
-      onClick: onMenuClick,
+      href: '/menu',
       isActive: currentView === 'menu',
       expandable: true,
     },
@@ -43,15 +40,22 @@ export function AdminSidebar({
       id: 'settings-location',
       label: 'Налаштування закладу',
       icon: MapPin,
-      onClick: onLocationClick,
+      href: '/settings/locations',
       isActive: currentView === 'locations',
     },
     {
       id: 'settings-delivery',
       label: 'Налаштування доставки',
       icon: Truck,
-      onClick: onDeliveryClick,
+      href: '/settings/delivery',
       isActive: currentView === 'delivery',
+    },
+    {
+      id: 'completed-orders',
+      label: 'Замовлення',
+      icon: Settings,
+      href: '/completed_orders',
+      isActive: currentView === 'orders',
     },
   ];
 
