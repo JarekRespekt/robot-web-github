@@ -16,9 +16,12 @@ export default function HomePage() {
             <div className="text-center lg:text-left">
               {/* Logo and Title */}
               <div className="mb-8">
-                <div className="inline-flex items-center justify-center w-24 h-24 bg-primary rounded-full shadow-card mb-6">
-                  <span className="text-4xl">🤖</span>
-                  <span className="text-2xl absolute -top-1 -right-1">👨‍🍳</span>
+                <div className="inline-flex items-center justify-center w-24 h-24 bg-white rounded-full shadow-card mb-6 overflow-hidden">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                    alt="ROBOT"
+                    className="w-20 h-20 object-cover rounded-full"
+                  />
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">ROBOT</h1>
                 <div className="w-24 h-1 bg-primary mx-auto lg:mx-0 rounded-full"></div>
