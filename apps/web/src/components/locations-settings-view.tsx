@@ -77,6 +77,13 @@ export function LocationsSettingsView() {
         instagram: '',
         tiktok: '',
       },
+      banking: {
+        bank_name: '',
+        account_holder: '',
+        iban: '',
+        swift: '',
+      },
+      establishment_enabled: true,
     },
   });
 
