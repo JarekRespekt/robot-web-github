@@ -53,7 +53,7 @@ export default function HomePage() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
                     // TODO: Add "Learn More" functionality
                     console.log('Learn more clicked');
@@ -65,7 +65,7 @@ export default function HomePage() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4"
+                  className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
                     // TODO: Add "How to start" functionality
                     console.log('How to start clicked');
