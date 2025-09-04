@@ -8,7 +8,9 @@ import {
   Settings,
   Truck,
   MapPin,
+  ShoppingBag,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
