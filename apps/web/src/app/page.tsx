@@ -55,8 +55,10 @@ export default function HomePage() {
                   size="lg" 
                   className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
-                    // TODO: Add "Learn More" functionality
-                    console.log('Learn more clicked');
+                    document.getElementById('why-robot')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
                   }}
                 >
                   Дізнатись більше
@@ -67,8 +69,10 @@ export default function HomePage() {
                   size="lg" 
                   className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
-                    // TODO: Add "How to start" functionality
-                    console.log('How to start clicked');
+                    document.getElementById('ready-to-start')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
                   }}
                 >
                   Як розпочати?
