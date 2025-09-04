@@ -1,20 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Save, Truck, User, Store, Loader2 } from 'lucide-react';
-import { useLocations, useUpdateDeliverySettings } from '@/lib/robot-queries';
-import { useToast } from '@/hooks/use-toast';
-import { formatCurrency, parseCurrency } from '@/lib/i18n';
+import { AdminHeader } from '@/components/admin-header';
+import { AdminSidebar } from '@/components/admin-sidebar';
+import { DeliverySettingsView } from '@/components/delivery-settings-view';
 import robotApi from '@/lib/robot-api';
-import Link from 'next/link';
-import type { Location } from '@/types/robot';
 
 const DELIVERY_METHODS = [
   {
