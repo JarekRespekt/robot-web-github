@@ -55,7 +55,7 @@ export function AdminSidebar({
     {
       id: 'completed-orders',
       label: 'Замовлення',
-      icon: Settings,
+      icon: ShoppingBag,
       href: '/completed_orders',
       isActive: currentView === 'orders',
     },
