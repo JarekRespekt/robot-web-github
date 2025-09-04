@@ -23,7 +23,7 @@ export default function HomePage() {
                     className="w-20 h-20 object-cover rounded-full"
                   />
                 </div>
-                <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">ROBOT</h1>
+                <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">R...OBOT</h1>
                 <div className="w-24 h-1 bg-primary mx-auto lg:mx-0 rounded-full"></div>
               </div>
 
