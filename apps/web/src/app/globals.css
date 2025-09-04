@@ -75,3 +75,12 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Switch improvements - ROBOT primary color for active state */
+[role="switch"][data-state="checked"] {
+  background-color: #CB5544 !important;
+}
+
+[role="switch"][data-state="checked"] [data-state="checked"] {
+  background-color: #CB5544 !important;
+}

@@ -133,8 +133,12 @@ function CreateItemContent() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-white rounded-md flex items-center justify-center shadow-sm">
-                  <span className="text-primary text-xl">🤖</span>
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_foodbot-dashboard/artifacts/l96u7hp8_e212ac48-cbca-4bd4-80dc-fd93cee810e9%281%29.jpg"
+                    alt="ROBOT"
+                    className="w-8 h-8 object-cover rounded-full"
+                  />
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-white">ROBOT Admin</h1>
