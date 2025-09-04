@@ -102,11 +102,11 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white/50">
+      <section id="why-robot" className="py-20 bg-white/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">
-              Чому ROBOT?
+              Чому R...OBOT?
             </h2>
             <p className="text-lg text-ink/70 max-w-2xl mx-auto">
               Автоматизуйте свій ресторан з розумним асистентом
