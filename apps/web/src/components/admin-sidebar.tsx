@@ -74,7 +74,7 @@ export function AdminSidebar({
               className={`w-full justify-between cursor-pointer ${
                 item.isActive ? 'bg-surface text-ink' : ''
               }`}
-              onClick={item.onClick}
+              onClick={() => router.push(item.href)}
             >
               <div className="flex items-center">
                 <Icon className="h-5 w-5 mr-3" />
@@ -83,7 +83,7 @@ export function AdminSidebar({
               {item.expandable && (
                 <ChevronRight 
                   className={`h-4 w-4 transition-transform ${
-                    isMenuOpen ? 'rotate-90' : ''
+                    item.isActive ? 'rotate-90' : ''
                   }`} 
                 />
               )}
