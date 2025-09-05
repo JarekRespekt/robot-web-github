@@ -185,11 +185,9 @@ export function OrdersTable() {
                 : 'Як тільки клієнти почнуть робити замовлення, вони з\'являться тут.'
               }
             </p>
-            {onRefetch && (
-              <Button onClick={onRefetch} variant="outline">
-                Оновити
-              </Button>
-            )}
+            <Button onClick={() => refetch()} variant="outline">
+              Оновити
+            </Button>
           </CardContent>
         </Card>
       ) : (
