@@ -110,7 +110,7 @@ export function OrdersTable() {
     });
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Card className="shadow-card border-0">
         <CardContent className="pt-12 text-center py-16">
