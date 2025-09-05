@@ -1,11 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import { useOrders, useUpdateOrderStatus } from '@/lib/robot-queries';
+import type { Order, OrdersFilters } from '@/types/robot';
 import { 
   Search, 
   Eye, 
@@ -15,31 +19,11 @@ import {
   XCircle, 
   Loader2,
   Package,
-  Truck
+  Truck,
+  MapPin,
+  User,
+  ShoppingBag
 } from 'lucide-react';
-
-interface Order {
-  id: string;
-  customer_name: string;
-  customer_phone: string;
-  items: Array<{
-    name: string;
-    quantity: number;
-    price: number;
-  }>;
-  total_amount: number;
-  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
-  delivery_method: 'pickup' | 'courier' | 'self';
-  created_at: string;
-  estimated_ready_time?: string;
-}
-
-interface OrdersTableProps {
-  orders: Order[];
-  loading?: boolean;
-  onStatusChange?: (orderId: string, newStatus: string) => void;
-  onRefetch?: () => void;
-}
 
 const ORDER_STATUSES = {
   pending: { label: 'Очікує', color: 'bg-yellow-100 text-yellow-700' },
