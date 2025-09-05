@@ -26,18 +26,28 @@ import {
 } from 'lucide-react';
 
 const ORDER_STATUSES = {
-  pending: { label: 'Очікує', color: 'bg-yellow-100 text-yellow-700' },
-  confirmed: { label: 'Підтверджено', color: 'bg-blue-100 text-blue-700' },
-  preparing: { label: 'Готується', color: 'bg-orange-100 text-orange-700' },
-  ready: { label: 'Готово', color: 'bg-green-100 text-green-700' },
-  delivered: { label: 'Доставлено', color: 'bg-gray-100 text-gray-700' },
-  cancelled: { label: 'Скасовано', color: 'bg-red-100 text-red-700' },
+  'нове': { label: 'Нове', color: 'bg-yellow-100 text-yellow-700' },
+  'у реалізації': { label: 'У реалізації', color: 'bg-orange-100 text-orange-700' },
+  'виконано': { label: 'Виконано', color: 'bg-green-100 text-green-700' },
+};
+
+const PAYMENT_STATUSES = {
+  'оплачено': { label: 'Оплачено', color: 'bg-green-100 text-green-700' },
+  'неоплачено': { label: 'Неоплачено', color: 'bg-red-100 text-red-700' },
+};
+
+const SOURCE_LABELS = {
+  'resto': 'Ресторан',
+  'telegram': 'Telegram',
+  'glovo': 'Glovo',
+  'bolt': 'Bolt',
+  'wolt': 'Wolt',
+  'custom': 'Інше',
 };
 
 const DELIVERY_METHODS = {
-  pickup: { label: 'Самовивіз', icon: Package },
-  courier: { label: 'Кур\'єр', icon: Truck },
-  self: { label: 'Власна', icon: Package },
+  'доставка': { label: 'Доставка', icon: Truck },
+  'особистий відбір': { label: 'Особистий відбір', icon: Package },
 };
 
 export function OrdersTable({ 
