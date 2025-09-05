@@ -219,6 +219,68 @@ class RobotApiClient {
 
   // Locations
   async getLocations(): Promise<ApiResponse<Location[]>> {
+    // For testing purposes, return mock data if test_mode is enabled
+    if (typeof window !== 'undefined' && window.location.search.includes('test_mode=true')) {
+      const mockLocations: Location[] = [
+        {
+          id: 'location-001',
+          name: 'ROBOT Центр',
+          address: 'вул. Хрещатик, 22, Київ, 01001',
+          phone: '+380441234567',
+          hours: {
+            mon: { open: '09:00', close: '22:00', closed: false },
+            tue: { open: '09:00', close: '22:00', closed: false },
+            wed: { open: '09:00', close: '22:00', closed: false },
+            thu: { open: '09:00', close: '22:00', closed: false },
+            fri: { open: '09:00', close: '23:00', closed: false },
+            sat: { open: '10:00', close: '23:00', closed: false },
+            sun: { open: '10:00', close: '21:00', closed: false }
+          },
+          socials: {
+            facebook: 'https://facebook.com/robot.center',
+            instagram: 'https://instagram.com/robot_center',
+            tiktok: 'https://tiktok.com/@robot_center'
+          },
+          delivery_settings: [
+            { method: 'pickup', enabled: true, delivery_fee: 0 },
+            { method: 'courier', enabled: true, delivery_fee: 50 }
+          ],
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        },
+        {
+          id: 'location-002',
+          name: 'ROBOT Поділ',
+          address: 'вул. Сагайдачного, 5, Київ, 04070',
+          phone: '+380442345678',
+          hours: {
+            mon: { open: '08:00', close: '21:00', closed: false },
+            tue: { open: '08:00', close: '21:00', closed: false },
+            wed: { open: '08:00', close: '21:00', closed: false },
+            thu: { open: '08:00', close: '21:00', closed: false },
+            fri: { open: '08:00', close: '22:00', closed: false },
+            sat: { open: '09:00', close: '22:00', closed: false },
+            sun: { open: '00:00', close: '00:00', closed: true }
+          },
+          socials: {
+            facebook: 'https://facebook.com/robot.podil',
+            instagram: 'https://instagram.com/robot_podil'
+          },
+          delivery_settings: [
+            { method: 'pickup', enabled: true, delivery_fee: 0 },
+            { method: 'courier', enabled: true, delivery_fee: 40 }
+          ],
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      ];
+      
+      return {
+        data: mockLocations,
+        success: true
+      };
+    }
+    
     return this.request<Location[]>('/locations');
   }
 
