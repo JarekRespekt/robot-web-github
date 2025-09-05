@@ -404,3 +404,74 @@ export function useCloudinarySign(options?: UseQueryOptions<CloudinarySignRespon
     ...options,
   });
 }
+
+// Orders Hooks
+export function useOrders(filters?: OrdersFilters, options?: UseQueryOptions<Order[], Error>) {
+  return useQuery({
+    queryKey: robotQueryKeys.orders(filters),
+    queryFn: async () => {
+      const response = await robotApi.getOrders(filters);
+      if (!response.success || !response.data) {
+        throw new Error(response.error?.message || 'Failed to fetch orders');
+      }
+      return response.data;
+    },
+    ...options,
+  });
+}
+
+export function useOrder(id: string, options?: UseQueryOptions<Order, Error>) {
+  return useQuery({
+    queryKey: robotQueryKeys.order(id),
+    queryFn: async () => {
+      const response = await robotApi.getOrder(id);
+      if (!response.success || !response.data) {
+        throw new Error(response.error?.message || 'Failed to fetch order');
+      }
+      return response.data;
+    },
+    enabled: !!id,
+    ...options,
+  });
+}
+
+export function useCreateOrder(
+  options?: UseMutationOptions<Order, Error, CreateOrderRequest>
+) {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (data: CreateOrderRequest) => {
+      const response = await robotApi.createOrder(data);
+      if (!response.success || !response.data) {
+        throw new Error(response.error?.message || 'Failed to create order');
+      }
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['robot', 'orders'] });
+    },
+    ...options,
+  });
+}
+
+export function useUpdateOrderStatus(
+  options?: UseMutationOptions<Order, Error, { id: string; data: UpdateOrderStatusRequest }>
+) {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: UpdateOrderStatusRequest }) => {
+      const response = await robotApi.updateOrderStatus(id, data);
+      if (!response.success || !response.data) {
+        throw new Error(response.error?.message || 'Failed to update order status');
+      }
+      return response.data;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(robotQueryKeys.order(data.id), data);
+      queryClient.invalidateQueries({ queryKey: ['robot', 'orders'] });
+    },
+    ...options,
+  });
+}
