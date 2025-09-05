@@ -1,0 +1,86 @@
+<analysis>
+The AI engineer successfully transitioned the ROBOT frontend from an initial Task management CRUD application to a comprehensive ROBOT 2.0 Admin Panel over several iterative phases. Initial work focused on core admin features like Telegram login, menu/category/item management, multi-language support (ua/pl/en/by), location/delivery settings, and integrating design tokens.
+
+Key challenges involved frequent user feedback regarding UI/UX, styling inconsistencies, and functional issues (e.g., button states, navigation, modal z-index, real-time updates). The AI engineer systematically addressed these, refactoring global styles, redesigning pages (homepage, item forms, settings), implementing new navigation components (AdminHeader, AdminSidebar, CategoryNavigation), and ensuring robust API client behavior (e.g., DELETE/204, Cloudinary integration). Technical hurdles included build errors related to Next.js server/client components and TypeScript types, which were resolved through careful refactoring. The project currently focuses on refining navigation, enhancing user interaction, and modularizing settings views, with the most recent task addressing critical UX issues and adding an Orders section.
+</analysis>
+
+<product_requirements>
+The project aims to provide a React (Next.js 15, App Router) frontend for the ROBOT application, evolving from a basic Task management CRUD to a ROBOT 2.0 Admin Panel. The core problem is to create an intuitive and visually consistent interface for managing a restaurant/delivery service.
+
+Key features include:
+- **Telegram Login**: Secure authentication.
+- **Menu Management**: CRUD for categories (with reorder) and items. Items support multi-language (ua/pl/en/by), price, packaging, photo upload (Cloudinary).
+- **Location Settings**: Manage multiple locations, including address, working hours, phone, social media, banking details, and an enabled/disabled switch for the establishment.
+- **Delivery Settings**: Configure existing methods (pickup, courier, self) and allow creation of custom delivery methods (name, description, price).
+- **UI/Style**: Implement ROBOT design tokens (#CB5544 primary, #FFF7EA surface, #062430 ink), responsive Tailwind CSS v4, shadcn/ui components, and accessible design. Modals and dropdowns require opaque backgrounds and correct z-index.
+- **Navigation**: Fixed top bar with establishment selector, fixed left sidebar for main sections (Menu, Location Settings, Delivery Settings, Orders), and a secondary sidebar for categories.
+- **Functionality**: React Query for data, React Hook Form + Zod for forms, optimistic UI, i18n, smooth scrolling for homepage CTAs.
+</product_requirements>
+
+<key_technical_concepts>
+- **Next.js 15 (App Router)**: React framework for web applications.
+- **React 18**: UI library.
+- **TypeScript**: For type safety.
+- **Tailwind CSS v4 + PostCSS**: Utility-first CSS.
+- **shadcn/ui**: Reusable UI components.
+- **React Query**: Data fetching and state management.
+- **React Hook Form + Zod**: Form validation.
+- **Telegram Login Widget**: Authentication.
+- **Cloudinary**: Image upload.
+- **i18n**: Multi-language support (ua/pl/en/by).
+</key_technical_concepts>
+
+<code_architecture>
+The application is a Next.js monorepo.
+
+**Key Files and Changes:**
+- : Rewritten for ROBOT-branded landing page with scrollable sections, new button layout, and integrated robot-chef image. Changed ROBOT to R...OBOT.
+- : Configured with , initially  then to white background with  for specific elements, integrated , and . Updated ROBOT to R...OBOT.
+- : Login page with Telegram widget, now includes a Головний екран button in the header and uses the robot-chef image. Updated ROBOT to R...OBOT.
+- : Converted to a client component for correct redirect to .
+- : Modified to integrate , , , and dynamically render , , ,  based on sidebar selection.
+- : Completely redesigned form for creating new menu items, supporting 4 languages (ua/pl/en/by), compact price fields, Cloudinary photo upload, and opens without closing navigation panels.
+- : Rewritten to use  and handle multiple locations. It now navigates correctly to .
+- : Rewritten to use  and handle custom delivery methods. It now navigates correctly to .
+-  (New): Created as the route for the new Orders section.
+- : Extended theme with , ,  colors, , and .
+- : Defines CSS variables for ROBOT design tokens, maps to shadcn/ui variables, improved switch styling (white circle, grey off, #CB5544 on), and added opaque white background for  and .
+-  (New): Implemented for the top navigation bar, featuring the R...OBOT logo, an establishment dropdown (placeholder), and a logout button, with a #CB5544 background and white text.
+-  (New): Implemented for the fixed left main navigation, including Меню, Налаштування закладу, Налаштування доставки, and a new Замовлення button. Active states are managed, and ROBOT changed to R...OBOT.
+-  (New): Secondary sidebar for categories, integrated with  for CRUD operations, with real-time updates.
+-  (New): Modal component for creating, editing, and deleting categories, ensuring it appears on the foreground with an opaque background.
+- : Fixed to use  for Telegram widget and changed ROBOT to R...OBOT.
+- : Props adjusted for better integration with item forms.
+-  (New): Component containing general information, banking details (new), social media, working hours, and location-specific settings, with an establishment enabled/disabled switch.
+-  (New): Component for delivery method configuration, allowing self-pickup, delivery, and a button to add custom methods.
+-  (New): Placeholder component for displaying a table of orders.
+- : Updated to include Belarusian () locale mapping.
+- : Modified to correctly handle  responses.
+- : Added  to , updated  to use a  object, and  was temporarily reverted to  to fix a build error (potential regression from ).
+- : Updated with Zod schemas for 4-language support and new item/location fields.
+- : Updated with Admin Panel specific environment variables.
+- Old task-related files were removed as per previous phase.
+</code_architecture>
+
+<pending_tasks>
+- Update  with all latest changes and testing instructions.
+- Fully implement the Замовлення (Orders) page functionality, including fetching and displaying order data.
+- Refactor  to display Загальна інформація and Години роботи in collapsible blocks per location, alongside a '+' button for new locations, and ensure proper routing.
+- Provide backend integration instructions for the new locations structure.
+</pending_tasks>
+
+<current_work>
+Immediately before this summary request, the AI engineer was engaged in addressing the latest user feedback (Phase 8, Chat Message 492) focusing on critical UI/UX refinements and new feature additions. This included:
+1.  **Ensuring active navigation**: Modified  to make navigation buttons (Menu, Location Settings, Delivery Settings, Orders) always active, allowing seamless transitions between routes.
+2.  **Branding Consistency**: Replaced all instances of ROBOT with R...OBOT across various components (, , , , , , ).
+3.  **Homepage Interactivity**: Implemented smooth scrolling for homepage Call-to-Action buttons: Дізнатись більше now scrolls to the Чому R...OBOT? section, and Як розпочати? scrolls to Готові розпочати?, by adding uid=0(root) gid=0(root) groups=0(root) attributes and  handlers to .
+4.  **Enhanced Switch Styles**: Updated  to improve the visual clarity of toggle switches, ensuring the circular indicator is white and the inactive state has a distinct grey background.
+5.  **New Orders Section**: Created a new route at  in  and a corresponding placeholder component  for displaying order information.
+6.  **Locations Refactoring (partial)**: Started to address the complex refactoring of the locations page, which involves displaying location details in separate, collapsible blocks and a new way to add locations.
+
+The AI engineer has just finished creating the placeholder component for the Orders section and is proceeding with the remaining tasks from the user's latest feedback.
+</current_work>
+
+<optional_next_step>
+Integrate the newly created  and  into the  for navigation.
+</optional_next_step>
