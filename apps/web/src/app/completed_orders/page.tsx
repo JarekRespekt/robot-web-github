@@ -1,73 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminHeader } from '@/components/admin-header';
 import { AdminSidebar } from '@/components/admin-sidebar';
 import { OrdersTable } from '@/components/orders-table';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Loader2, RefreshCw } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useOrders } from '@/lib/robot-queries';
 import robotApi from '@/lib/robot-api';
-
-// Mock data for development - remove when backend API is ready
-const MOCK_ORDERS = [
-  {
-    id: 'ORD-001',
-    customer_name: 'Іван Петренко',
-    customer_phone: '+380501234567',
-    items: [
-      { name: 'Маргарита піца', quantity: 1, price: 250 },
-      { name: 'Цезар салат', quantity: 2, price: 120 },
-    ],
-    total_amount: 490,
-    status: 'pending' as const,
-    delivery_method: 'courier' as const,
-    created_at: '2024-01-15T14:30:00Z',
-    estimated_ready_time: '2024-01-15T15:00:00Z',
-  },
-  {
-    id: 'ORD-002',
-    customer_name: 'Марія Коваленко',
-    customer_phone: '+380509876543',
-    items: [
-      { name: 'Борщ українській', quantity: 1, price: 95 },
-      { name: 'Котлета по-київськи', quantity: 1, price: 180 },
-    ],
-    total_amount: 275,
-    status: 'confirmed' as const,
-    delivery_method: 'pickup' as const,
-    created_at: '2024-01-15T13:45:00Z',
-    estimated_ready_time: '2024-01-15T14:30:00Z',
-  },
-  {
-    id: 'ORD-003',
-    customer_name: 'Олексій Мельник',
-    customer_phone: '+380671112233',
-    items: [
-      { name: 'Паста Карбонара', quantity: 1, price: 220 },
-    ],
-    total_amount: 220,
-    status: 'ready' as const,
-    delivery_method: 'courier' as const,
-    created_at: '2024-01-15T12:20:00Z',
-    estimated_ready_time: '2024-01-15T13:20:00Z',
-  },
-  {
-    id: 'ORD-004',
-    customer_name: 'Анна Шевченко',
-    customer_phone: '+380664445566',
-    items: [
-      { name: 'Вареники з картоплею', quantity: 2, price: 80 },
-      { name: 'Сметана', quantity: 1, price: 25 },
-    ],
-    total_amount: 185,
-    status: 'delivered' as const,
-    delivery_method: 'pickup' as const,
-    created_at: '2024-01-15T11:15:00Z',
-  },
-];
 
 export default function CompletedOrdersPage() {
   const router = useRouter();
