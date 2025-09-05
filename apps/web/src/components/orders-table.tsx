@@ -194,7 +194,8 @@ export function OrdersTable() {
         <div className="space-y-4">
           {filteredOrders.map((order) => {
             const statusConfig = ORDER_STATUSES[order.status];
-            const DeliveryIcon = DELIVERY_METHODS[order.delivery_method].icon;
+            const paymentConfig = PAYMENT_STATUSES[order.payment_status];
+            const DeliveryIcon = DELIVERY_METHODS[order.delivery_type].icon;
             
             return (
               <Card key={order.id} className="shadow-card border-0 hover:shadow-lg transition-shadow">
@@ -202,36 +203,45 @@ export function OrdersTable() {
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                     {/* Order Info */}
                     <div className="flex-1 space-y-3">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 flex-wrap">
                         <h3 className="font-semibold text-ink">#{order.id}</h3>
                         <Badge className={statusConfig.color}>
                           {statusConfig.label}
                         </Badge>
+                        <Badge className={paymentConfig.color}>
+                          {paymentConfig.label}
+                        </Badge>
+                        <Badge variant="outline" className="text-muted-foreground">
+                          {SOURCE_LABELS[order.source]}
+                        </Badge>
                         <div className="flex items-center text-sm text-muted-foreground">
                           <DeliveryIcon className="h-4 w-4 mr-1" />
-                          {DELIVERY_METHODS[order.delivery_method].label}
+                          {DELIVERY_METHODS[order.delivery_type].label}
                         </div>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <p className="font-medium text-ink">{order.customer_name}</p>
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Phone className="h-4 w-4 mr-1" />
-                            {order.customer_phone}
-                          </div>
+                          <p className="font-medium text-ink">{order.customer?.name || 'Невідомий клієнт'}</p>
+                          {order.customer?.phone && (
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <Phone className="h-4 w-4 mr-1" />
+                              {order.customer.phone}
+                            </div>
+                          )}
+                          {order.customer?.address && (
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <MapPin className="h-4 w-4 mr-1" />
+                              {order.customer.address}
+                            </div>
+                          )}
                         </div>
                         
                         <div>
                           <div className="flex items-center text-sm text-muted-foreground mb-1">
                             <Clock className="h-4 w-4 mr-1" />
-                            {formatDate(order.created_at)}
+                            {formatDate(order.order_time)}
                           </div>
-                          {order.estimated_ready_time && (
-                            <p className="text-sm text-muted-foreground">
-                              Готово: {formatDate(order.estimated_ready_time)}
-                            </p>
-                          )}
                         </div>
                       </div>
                       
@@ -240,7 +250,7 @@ export function OrdersTable() {
                         <span className="font-medium">Страви:</span>{' '}
                         {order.items.map((item, index) => (
                           <span key={index}>
-                            {item.name} (×{item.quantity})
+                            {item.item_name.ua || item.item_name.en} (×{item.quantity})
                             {index < order.items.length - 1 ? ', ' : ''}
                           </span>
                         ))}
@@ -258,60 +268,36 @@ export function OrdersTable() {
                         </p>
                       </div>
                       
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
-                          <Eye className="h-4 w-4 mr-1" />
-                          Деталі
-                        </Button>
-                        
-                        {order.status === 'pending' && (
-                          <>
-                            <Button 
-                              size="sm" 
-                              className="bg-green-600 hover:bg-green-700 text-white"
-                              onClick={() => onStatusChange?.(order.id, 'confirmed')}
-                            >
-                              <CheckCircle className="h-4 w-4 mr-1" />
-                              Підтвердити
+                      <div className="flex gap-2 flex-wrap">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button size="sm" variant="outline" onClick={() => setSelectedOrder(order)}>
+                              <Eye className="h-4 w-4 mr-1" />
+                              Деталі
                             </Button>
-                            <Button 
-                              size="sm" 
-                              variant="destructive"
-                              onClick={() => onStatusChange?.(order.id, 'cancelled')}
-                            >
-                              <XCircle className="h-4 w-4 mr-1" />
-                              Скасувати
-                            </Button>
-                          </>
-                        )}
+                          </DialogTrigger>
+                        </Dialog>
                         
-                        {order.status === 'confirmed' && (
+                        {order.status === 'нове' && (
                           <Button 
                             size="sm" 
                             className="bg-orange-600 hover:bg-orange-700 text-white"
-                            onClick={() => onStatusChange?.(order.id, 'preparing')}
+                            onClick={() => handleStatusChange(order.id, 'у реалізації')}
+                            disabled={updateOrderStatus.isPending}
                           >
-                            Готується
+                            У реалізацію
                           </Button>
                         )}
                         
-                        {order.status === 'preparing' && (
+                        {order.status === 'у реалізації' && (
                           <Button 
                             size="sm" 
                             className="bg-green-600 hover:bg-green-700 text-white"
-                            onClick={() => onStatusChange?.(order.id, 'ready')}
+                            onClick={() => handleStatusChange(order.id, 'виконано')}
+                            disabled={updateOrderStatus.isPending}
                           >
-                            Готово
-                          </Button>
-                        )}
-                        
-                        {order.status === 'ready' && order.delivery_method !== 'pickup' && (
-                          <Button 
-                            size="sm" 
-                            className="bg-blue-600 hover:bg-blue-700 text-white"
-                            onClick={() => onStatusChange?.(order.id, 'delivered')}
-                          >
-                            Доставлено
+                            <CheckCircle className="h-4 w-4 mr-1" />
+                            Виконано
                           </Button>
                         )}
                       </div>
@@ -321,6 +307,115 @@ export function OrdersTable() {
               </Card>
             );
           })}
+        </div>
+      )}
+
+      {/* Order Details Modal */}
+      {selectedOrder && (
+        <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>
+          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Деталі замовлення #{selectedOrder.id}</DialogTitle>
+            </DialogHeader>
+            
+            <div className="space-y-6">
+              {/* Order Status & Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="font-semibold mb-2">Статус замовлення</h4>
+                  <div className="space-y-2">
+                    <Badge className={ORDER_STATUSES[selectedOrder.status].color}>
+                      {ORDER_STATUSES[selectedOrder.status].label}
+                    </Badge>
+                    <Badge className={PAYMENT_STATUSES[selectedOrder.payment_status].color}>
+                      {PAYMENT_STATUSES[selectedOrder.payment_status].label}
+                    </Badge>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold mb-2">Інформація про замовлення</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Джерело: {SOURCE_LABELS[selectedOrder.source]}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Тип: {DELIVERY_METHODS[selectedOrder.delivery_type].label}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Час: {formatDate(selectedOrder.order_time)}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Customer Info */}
+              <div>
+                <h4 className="font-semibold mb-2 flex items-center">
+                  <User className="h-4 w-4 mr-2" />
+                  Інформація про клієнта
+                </h4>
+                <div className="bg-surface rounded-lg p-4 space-y-2">
+                  <p><span className="font-medium">Ім'я:</span> {selectedOrder.customer?.name || 'Не вказано'}</p>
+                  {selectedOrder.customer?.phone && (
+                    <p><span className="font-medium">Телефон:</span> {selectedOrder.customer.phone}</p>
+                  )}
+                  {selectedOrder.customer?.address && (
+                    <p><span className="font-medium">Адреса:</span> {selectedOrder.customer.address}</p>
+                  )}
+                </div>
+              </div>
+              
+              {/* Order Items */}
+              <div>
+                <h4 className="font-semibold mb-2 flex items-center">
+                  <ShoppingBag className="h-4 w-4 mr-2" />
+                  Позиції замовлення
+                </h4>
+                <div className="space-y-2">
+                  {selectedOrder.items.map((item, index) => (
+                    <div key={index} className="bg-surface rounded-lg p-4 flex justify-between items-center">
+                      <div>
+                        <p className="font-medium">{item.item_name.ua || item.item_name.en}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {formatCurrency(item.price)} × {item.quantity}
+                        </p>
+                      </div>
+                      <p className="font-semibold">{formatCurrency(item.total)}</p>
+                    </div>
+                  ))}
+                  <div className="bg-primary/10 rounded-lg p-4 flex justify-between items-center font-semibold">
+                    <span>Загальна сума:</span>
+                    <span className="text-lg">{formatCurrency(selectedOrder.total_amount)}</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Delivery Info */}
+              {selectedOrder.delivery_info && (
+                <div>
+                  <h4 className="font-semibold mb-2 flex items-center">
+                    <Truck className="h-4 w-4 mr-2" />
+                    Інформація про доставку
+                  </h4>
+                  <div className="bg-surface rounded-lg p-4 space-y-2">
+                    {selectedOrder.delivery_info.address && (
+                      <p><span className="font-medium">Адреса:</span> {selectedOrder.delivery_info.address}</p>
+                    )}
+                    {selectedOrder.delivery_info.phone && (
+                      <p><span className="font-medium">Телефон:</span> {selectedOrder.delivery_info.phone}</p>
+                    )}
+                    {selectedOrder.delivery_info.delivery_time && (
+                      <p><span className="font-medium">Час доставки:</span> {selectedOrder.delivery_info.delivery_time}</p>
+                    )}
+                    {selectedOrder.delivery_info.notes && (
+                      <p><span className="font-medium">Примітки:</span> {selectedOrder.delivery_info.notes}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
         </div>
       )}
     </div>
