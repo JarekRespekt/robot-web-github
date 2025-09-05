@@ -462,10 +462,6 @@ class RobotApiClient {
 
   // Utility methods
   isAuthenticated(): boolean {
-    // For testing purposes, allow access if URL contains 'test_mode'
-    if (typeof window !== 'undefined' && window.location.search.includes('test_mode=true')) {
-      return true;
-    }
     return !!this.getAuthToken();
   }
 
