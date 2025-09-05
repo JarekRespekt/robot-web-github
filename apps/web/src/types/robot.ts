@@ -210,6 +210,26 @@ export interface CloudinarySignResponse {
   public_id?: string;
 }
 
+export interface CreateOrderRequest {
+  source: Order['source'];
+  customer: Order['customer'];
+  items: Order['items'];
+  delivery_type: Order['delivery_type'];
+  delivery_info?: Order['delivery_info'];
+  payment_status?: Order['payment_status'];
+}
+
+export interface UpdateOrderStatusRequest {
+  status: Order['status'];
+}
+
+export interface OrdersFilters {
+  status?: Order['status'];
+  source?: Order['source'];
+  date_from?: string;
+  date_to?: string;
+}
+
 // API Error Types
 export interface ApiError {
   message: string;
