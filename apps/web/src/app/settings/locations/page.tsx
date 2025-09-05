@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminHeader } from '@/components/admin-header';
 import { AdminSidebar } from '@/components/admin-sidebar';
-import { LocationsSettingsView } from '@/components/locations-settings-view';
+import { LocationsManager } from '@/components/locations-manager';
 import robotApi from '@/lib/robot-api';
 
 export default function LocationsSettingsPage() {
