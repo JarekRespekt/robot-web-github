@@ -70,7 +70,7 @@ export default function CompletedOrdersPage() {
                 <CardContent className="p-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-primary">
-                      {orders.filter(o => o.status === 'pending').length}
+                      {orders.filter(o => o.status === 'нове').length}
                     </p>
                     <p className="text-sm text-muted-foreground">Нові</p>
                   </div>
@@ -81,9 +81,9 @@ export default function CompletedOrdersPage() {
                 <CardContent className="p-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-orange-600">
-                      {orders.filter(o => ['confirmed', 'preparing'].includes(o.status)).length}
+                      {orders.filter(o => o.status === 'у реалізації').length}
                     </p>
-                    <p className="text-sm text-muted-foreground">В роботі</p>
+                    <p className="text-sm text-muted-foreground">У реалізації</p>
                   </div>
                 </CardContent>
               </Card>
@@ -92,9 +92,9 @@ export default function CompletedOrdersPage() {
                 <CardContent className="p-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-green-600">
-                      {orders.filter(o => o.status === 'ready').length}
+                      {orders.filter(o => o.status === 'виконано').length}
                     </p>
-                    <p className="text-sm text-muted-foreground">Готові</p>
+                    <p className="text-sm text-muted-foreground">Виконано</p>
                   </div>
                 </CardContent>
               </Card>
@@ -103,21 +103,16 @@ export default function CompletedOrdersPage() {
                 <CardContent className="p-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-gray-600">
-                      {orders.filter(o => ['delivered', 'cancelled'].includes(o.status)).length}
+                      {orders.filter(o => o.payment_status === 'оплачено').length}
                     </p>
-                    <p className="text-sm text-muted-foreground">Завершені</p>
+                    <p className="text-sm text-muted-foreground">Оплачено</p>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Orders Table */}
-            <OrdersTable 
-              orders={orders}
-              loading={loading}
-              onStatusChange={handleStatusChange}
-              onRefetch={fetchOrders}
-            />
+            <OrdersTable />
           </div>
         </main>
       </div>
