@@ -32,7 +32,7 @@ export default function LocationsSettingsPage() {
 
         {/* Main Content Area */}
         <main className="flex-1 overflow-auto bg-gray-50/30">
-          <LocationsSettingsView />
+          <LocationsManager />
         </main>
       </div>
     </div>
