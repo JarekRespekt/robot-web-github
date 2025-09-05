@@ -11,6 +11,7 @@ import type {
   Category,
   Item,
   Location,
+  Order,
   TelegramUser,
   TelegramLoginResponse,
   CreateCategoryRequest,
@@ -20,6 +21,9 @@ import type {
   UpdateItemRequest,
   UpdateLocationRequest,
   UpdateDeliverySettingsRequest,
+  CreateOrderRequest,
+  UpdateOrderStatusRequest,
+  OrdersFilters,
   CloudinarySignResponse,
   ApiResponse,
 } from '@/types/robot';
