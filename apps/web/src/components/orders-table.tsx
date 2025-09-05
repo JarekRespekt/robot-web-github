@@ -50,25 +50,51 @@ const DELIVERY_METHODS = {
   'особистий відбір': { label: 'Особистий відбір', icon: Package },
 };
 
-export function OrdersTable({ 
-  orders, 
-  loading = false, 
-  onStatusChange,
-  onRefetch 
-}: OrdersTableProps) {
+export function OrdersTable() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<Order['status'] | 'all'>('all');
+  const [sourceFilter, setSourceFilter] = useState<Order['source'] | 'all'>('all');
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  
+  const { toast } = useToast();
 
-  // Filter orders based on search and status
+  // Build filters for API query
+  const filters: OrdersFilters = {};
+  if (statusFilter !== 'all') filters.status = statusFilter;
+  if (sourceFilter !== 'all') filters.source = sourceFilter;
+
+  const { data: orders = [], isLoading, refetch } = useOrders(filters);
+  const updateOrderStatus = useUpdateOrderStatus();
+
+  // Filter orders based on search
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = order.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         order.customer_phone.includes(searchQuery) ||
+    const customerName = order.customer?.name || '';
+    const customerPhone = order.customer?.phone || '';
+    const matchesSearch = customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         customerPhone.includes(searchQuery) ||
                          order.id.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
-    
-    return matchesSearch && matchesStatus;
+    return matchesSearch;
   });
+
+  const handleStatusChange = async (orderId: string, newStatus: Order['status']) => {
+    try {
+      await updateOrderStatus.mutateAsync({ 
+        id: orderId, 
+        data: { status: newStatus } 
+      });
+      toast({
+        title: "Статус замовлення оновлено",
+        description: `Замовлення #${orderId} тепер має статус "${ORDER_STATUSES[newStatus].label}"`,
+      });
+    } catch (error) {
+      toast({
+        title: "Помилка",
+        description: "Не вдалося оновити статус замовлення",
+        variant: "destructive",
+      });
+    }
+  };
 
   const formatCurrency = (amount: number) => {
     return `${amount.toFixed(2)} грн`;
