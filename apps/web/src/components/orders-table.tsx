@@ -139,15 +139,30 @@ export function OrdersTable() {
             </div>
             
             {/* Status Filter */}
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
               <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Статус замовлення" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Всі замовлення</SelectItem>
+                <SelectItem value="all">Всі статуси</SelectItem>
                 {Object.entries(ORDER_STATUSES).map(([status, config]) => (
                   <SelectItem key={status} value={status}>
                     {config.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Source Filter */}
+            <Select value={sourceFilter} onValueChange={(value: any) => setSourceFilter(value)}>
+              <SelectTrigger className="w-full md:w-48">
+                <SelectValue placeholder="Джерело замовлення" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Всі джерела</SelectItem>
+                {Object.entries(SOURCE_LABELS).map(([source, label]) => (
+                  <SelectItem key={source} value={source}>
+                    {label}
                   </SelectItem>
                 ))}
               </SelectContent>
