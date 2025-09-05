@@ -45,23 +45,7 @@ export default function CompletedOrdersPage() {
                 </p>
               </div>
               
-              <Button 
-                onClick={fetchOrders}
-                disabled={loading}
-                className="bg-primary text-white hover:opacity-90 cursor-pointer"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Оновлення...
-                  </>
-                ) : (
-                  <>
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Оновити
-                  </>
-                )}
-              </Button>
+
             </div>
 
             {/* Statistics */}
