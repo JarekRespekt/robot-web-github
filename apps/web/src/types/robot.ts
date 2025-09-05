@@ -97,6 +97,37 @@ export interface MediaAsset {
   created_at: string;
 }
 
+export interface Order {
+  id: string;
+  tenant_id: string;
+  source: 'resto' | 'telegram' | 'glovo' | 'bolt' | 'wolt' | 'custom';
+  status: 'нове' | 'у реалізації' | 'виконано';
+  payment_status: 'оплачено' | 'неоплачено';
+  total_amount: number;
+  order_time: string;
+  delivery_type: 'доставка' | 'особистий відбір';
+  customer: {
+    name?: string;
+    phone?: string;
+    address?: string;
+  };
+  items: Array<{
+    item_id: string;
+    item_name: I18nStr;
+    quantity: number;
+    price: number;
+    total: number;
+  }>;
+  delivery_info?: {
+    address?: string;
+    phone?: string;
+    delivery_time?: string;
+    notes?: string;
+  };
+  created_at: string;
+  updated_at: string;
+}
+
 // Telegram Login Widget Types
 export interface TelegramUser {
   id: number;
