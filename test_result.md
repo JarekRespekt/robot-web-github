@@ -213,6 +213,77 @@ Results: **95% SUCCESS RATE - DESIGN IMPROVEMENTS VALIDATED**
 - **Location Management**: Banking info, social media, collapsible general info and hours
 - **UI Consistency**: Maintains ROBOT design tokens and existing patterns
 
+## Backend Integration Instructions for Orders API
+
+**Required API Endpoints:**
+
+1. **GET /orders** - Retrieve orders with optional filtering
+   ```
+   Query Parameters:
+   - status?: 'нове' | 'у реалізації' | 'виконано'
+   - source?: 'resto' | 'telegram' | 'glovo' | 'bolt' | 'wolt' | 'custom'
+   - date_from?: string (ISO date)
+   - date_to?: string (ISO date)
+   
+   Response: Order[]
+   ```
+
+2. **GET /orders/{id}** - Get single order details
+   ```
+   Response: Order
+   ```
+
+3. **POST /orders** - Create new order
+   ```
+   Body: CreateOrderRequest
+   Response: Order
+   ```
+
+4. **PATCH /orders/{id}/status** - Update order status
+   ```
+   Body: { status: 'нове' | 'у реалізації' | 'виконано' }
+   Response: Order
+   ```
+
+**Order Model Schema:**
+```typescript
+interface Order {
+  id: string;
+  tenant_id: string;
+  source: 'resto' | 'telegram' | 'glovo' | 'bolt' | 'wolt' | 'custom';
+  status: 'нове' | 'у реалізації' | 'виконано';
+  payment_status: 'оплачено' | 'неоплачено';
+  total_amount: number;
+  order_time: string; // ISO datetime
+  delivery_type: 'доставка' | 'особистий відбір';
+  customer: {
+    name?: string;
+    phone?: string;
+    address?: string;
+  };
+  items: Array<{
+    item_id: string;
+    item_name: I18nStr; // {ua, pl, en, by}
+    quantity: number;
+    price: number;
+    total: number;
+  }>;
+  delivery_info?: {
+    address?: string;
+    phone?: string;
+    delivery_time?: string;
+    notes?: string;
+  };
+  created_at: string;
+  updated_at: string;
+}
+```
+
+**Database Setup:**
+- Use UUIDs for order IDs (not MongoDB ObjectIDs)
+- Ensure proper indexing on tenant_id, status, source, order_time
+- Consider date/time field serialization for MongoDB compatibility
+
 ## Agent Communication
 
 **From Testing Agent (Backend Testing Complete):**
