@@ -49,6 +49,13 @@ export const robotQueryKeys = {
   
   // Media
   cloudinarySign: ['robot', 'media', 'sign'] as const,
+  
+  // Orders
+  orders: (filters?: OrdersFilters) => 
+    filters 
+      ? ['robot', 'orders', filters] as const
+      : ['robot', 'orders'] as const,
+  order: (id: string) => ['robot', 'orders', id] as const,
 };
 
 // Auth Hooks
