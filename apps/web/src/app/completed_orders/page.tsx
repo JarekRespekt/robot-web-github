@@ -11,10 +11,9 @@ import robotApi from '@/lib/robot-api';
 
 export default function CompletedOrdersPage() {
   const router = useRouter();
-  const { toast } = useToast();
-  const [orders, setOrders] = useState(MOCK_ORDERS);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  
+  // Get all orders using React Query
+  const { data: orders = [], isLoading } = useOrders();
 
   // Check authentication
   useEffect(() => {
@@ -23,92 +22,6 @@ export default function CompletedOrdersPage() {
       return;
     }
   }, [router]);
-
-  // Fetch orders from API (placeholder for future implementation)
-  const fetchOrders = async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      // TODO: Replace with actual API call when backend is ready
-      // const response = await robotApi.get('/orders');
-      // setOrders(response.data);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setOrders(MOCK_ORDERS);
-      
-      toast({
-        title: 'Оновлено',
-        description: 'Список замовлень оновлено',
-        variant: 'success',
-      });
-    } catch (err: any) {
-      setError('Не вдалося завантажити замовлення');
-      toast({
-        title: 'Помилка',
-        description: 'Не вдалося завантажити замовлення',
-        variant: 'destructive',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Handle status change
-  const handleStatusChange = async (orderId: string, newStatus: string) => {
-    try {
-      // TODO: Replace with actual API call when backend is ready
-      // await robotApi.put(`/orders/${orderId}/status`, { status: newStatus });
-      
-      // Update local state
-      setOrders(prevOrders => 
-        prevOrders.map(order => 
-          order.id === orderId 
-            ? { ...order, status: newStatus as any }
-            : order
-        )
-      );
-      
-      toast({
-        title: 'Статус оновлено',
-        description: `Замовлення #${orderId} змінено на ${newStatus}`,
-        variant: 'success',
-      });
-    } catch (err: any) {
-      toast({
-        title: 'Помилка',
-        description: 'Не вдалося оновити статус замовлення',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-white">
-        <AdminHeader />
-        <div className="flex h-[calc(100vh-80px)]">
-          <AdminSidebar currentView="orders" />
-          <main className="flex-1 overflow-auto bg-gray-50/30">
-            <div className="p-6">
-              <Card className="shadow-card border-0">
-                <CardContent className="pt-12 text-center py-16">
-                  <div className="text-6xl mb-6">⚠️</div>
-                  <h2 className="text-2xl font-semibold mb-3 text-ink">Помилка завантаження</h2>
-                  <p className="text-muted-foreground mb-6">{error}</p>
-                  <Button onClick={fetchOrders} className="bg-primary text-white hover:opacity-90">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Спробувати знову
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </main>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">
