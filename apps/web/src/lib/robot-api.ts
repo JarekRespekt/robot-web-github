@@ -246,6 +246,36 @@ class RobotApiClient {
     });
   }
 
+  // Orders
+  async getOrders(filters?: OrdersFilters): Promise<ApiResponse<Order[]>> {
+    const query = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value) query.append(key, value);
+      });
+    }
+    const queryString = query.toString() ? `?${query.toString()}` : '';
+    return this.request<Order[]>(`/orders${queryString}`);
+  }
+
+  async getOrder(id: string): Promise<ApiResponse<Order>> {
+    return this.request<Order>(`/orders/${id}`);
+  }
+
+  async createOrder(data: CreateOrderRequest): Promise<ApiResponse<Order>> {
+    return this.request<Order>('/orders', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateOrderStatus(id: string, data: UpdateOrderStatusRequest): Promise<ApiResponse<Order>> {
+    return this.request<Order>(`/orders/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
   // Utility methods
   isAuthenticated(): boolean {
     return !!this.getAuthToken();
