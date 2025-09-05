@@ -8,7 +8,9 @@ import {
   Settings,
   Truck,
   MapPin,
+  ShoppingBag,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -18,20 +20,13 @@ interface AdminSidebarProps {
 }
 
 interface AdminSidebarProps {
-  onMenuClick?: () => void;
-  onLocationClick?: () => void;
-  onDeliveryClick?: () => void;
-  isMenuOpen?: boolean;
-  currentView?: 'menu' | 'locations' | 'delivery';
+  currentView?: 'menu' | 'locations' | 'delivery' | 'orders';
 }
 
 export function AdminSidebar({ 
-  onMenuClick, 
-  onLocationClick,
-  onDeliveryClick,
-  isMenuOpen = false,
   currentView = 'menu'
 }: AdminSidebarProps) {
+  const router = useRouter();
   const pathname = usePathname();
 
   const navigationItems = [
@@ -39,7 +34,7 @@ export function AdminSidebar({
       id: 'menu',
       label: 'Меню',
       icon: MenuIcon,
-      onClick: onMenuClick,
+      href: '/menu',
       isActive: currentView === 'menu',
       expandable: true,
     },
@@ -47,15 +42,22 @@ export function AdminSidebar({
       id: 'settings-location',
       label: 'Налаштування закладу',
       icon: MapPin,
-      onClick: onLocationClick,
+      href: '/settings/locations',
       isActive: currentView === 'locations',
     },
     {
       id: 'settings-delivery',
       label: 'Налаштування доставки',
       icon: Truck,
-      onClick: onDeliveryClick,
+      href: '/settings/delivery',
       isActive: currentView === 'delivery',
+    },
+    {
+      id: 'completed-orders',
+      label: 'Замовлення',
+      icon: ShoppingBag,
+      href: '/completed_orders',
+      isActive: currentView === 'orders',
     },
   ];
 
@@ -72,7 +74,7 @@ export function AdminSidebar({
               className={`w-full justify-between cursor-pointer ${
                 item.isActive ? 'bg-surface text-ink' : ''
               }`}
-              onClick={item.onClick}
+              onClick={() => router.push(item.href)}
             >
               <div className="flex items-center">
                 <Icon className="h-5 w-5 mr-3" />
@@ -81,7 +83,7 @@ export function AdminSidebar({
               {item.expandable && (
                 <ChevronRight 
                   className={`h-4 w-4 transition-transform ${
-                    isMenuOpen ? 'rotate-90' : ''
+                    item.isActive ? 'rotate-90' : ''
                   }`} 
                 />
               )}

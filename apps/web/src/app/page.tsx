@@ -23,14 +23,14 @@ export default function HomePage() {
                     className="w-20 h-20 object-cover rounded-full"
                   />
                 </div>
-                <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">ROBOT</h1>
+                <h1 className="text-5xl md:text-7xl font-bold text-ink mb-4">R...OBOT</h1>
                 <div className="w-24 h-1 bg-primary mx-auto lg:mx-0 rounded-full"></div>
               </div>
 
               {/* Main Description */}
               <div className="mb-12">
                 <p className="text-xl md:text-2xl text-ink/80 leading-relaxed mb-8">
-                  <strong className="text-primary">ROBOT</strong> — твій помічник у світі ресторанного бізнесу.
+                  <strong className="text-primary">R...OBOT</strong> — твій помічник у світі ресторанного бізнесу.
                 </p>
                 <p className="text-lg md:text-xl text-ink/70 leading-relaxed">
                   Це не просто софт, а цілий <span className="text-primary font-medium">цифровий асистент</span>: червоний робот у кухарській шапці, який знає, як зробити замовлення зручними, оплату — швидкою, а роботу персоналу — легшою.
@@ -55,8 +55,10 @@ export default function HomePage() {
                   size="lg" 
                   className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
-                    // TODO: Add "Learn More" functionality
-                    console.log('Learn more clicked');
+                    document.getElementById('why-robot')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
                   }}
                 >
                   Дізнатись більше
@@ -67,8 +69,10 @@ export default function HomePage() {
                   size="lg" 
                   className="border-primary text-primary rounded-lg hover:bg-primary/5 text-lg px-8 py-4 cursor-pointer"
                   onClick={() => {
-                    // TODO: Add "How to start" functionality
-                    console.log('How to start clicked');
+                    document.getElementById('ready-to-start')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
                   }}
                 >
                   Як розпочати?
@@ -102,11 +106,11 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white/50">
+      <section id="why-robot" className="py-20 bg-white/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">
-              Чому ROBOT?
+              Чому R...OBOT?
             </h2>
             <p className="text-lg text-ink/70 max-w-2xl mx-auto">
               Автоматизуйте свій ресторан з розумним асистентом
@@ -166,14 +170,14 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary/5">
+      <section id="ready-to-start" className="py-20 bg-surface">
         <div className="container mx-auto px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-ink mb-6">
               Готові розпочати?
             </h2>
             <p className="text-lg text-ink/70 mb-8">
-              Приєднуйтесь до ресторанів, які вже довіряють ROBOT
+              Приєднуйтесь до ресторанів, які вже довіряють R...OBOT
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -215,7 +219,7 @@ export default function HomePage() {
                 className="w-6 h-6 object-cover rounded-full"
               />
             </div>
-            <span className="font-bold text-primary">ROBOT</span>
+            <span className="font-bold text-primary">R...OBOT</span>
           </div>
           <p className="text-sm text-ink/60">
             © 2024 ROBOT. Ваш цифровий асистент ресторану.

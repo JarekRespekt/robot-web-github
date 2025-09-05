@@ -3,6 +3,7 @@ import type {
   Category,
   Item, 
   Location,
+  Order,
   TelegramUser,
   TelegramLoginResponse,
   CreateCategoryRequest,
@@ -12,6 +13,9 @@ import type {
   UpdateItemRequest,
   UpdateLocationRequest,
   UpdateDeliverySettingsRequest,
+  CreateOrderRequest,
+  UpdateOrderStatusRequest,
+  OrdersFilters,
   CloudinarySignResponse,
   ApiResponse,
   ApiError,
@@ -215,6 +219,68 @@ class RobotApiClient {
 
   // Locations
   async getLocations(): Promise<ApiResponse<Location[]>> {
+    // For testing purposes, return mock data if test_mode is enabled
+    if (typeof window !== 'undefined' && window.location.search.includes('test_mode=true')) {
+      const mockLocations: Location[] = [
+        {
+          id: 'location-001',
+          name: 'ROBOT Центр',
+          address: 'вул. Хрещатик, 22, Київ, 01001',
+          phone: '+380441234567',
+          hours: {
+            mon: { open: '09:00', close: '22:00', closed: false },
+            tue: { open: '09:00', close: '22:00', closed: false },
+            wed: { open: '09:00', close: '22:00', closed: false },
+            thu: { open: '09:00', close: '22:00', closed: false },
+            fri: { open: '09:00', close: '23:00', closed: false },
+            sat: { open: '10:00', close: '23:00', closed: false },
+            sun: { open: '10:00', close: '21:00', closed: false }
+          },
+          socials: {
+            facebook: 'https://facebook.com/robot.center',
+            instagram: 'https://instagram.com/robot_center',
+            tiktok: 'https://tiktok.com/@robot_center'
+          },
+          delivery_settings: [
+            { method: 'pickup', enabled: true, delivery_fee: 0 },
+            { method: 'courier', enabled: true, delivery_fee: 50 }
+          ],
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        },
+        {
+          id: 'location-002',
+          name: 'ROBOT Поділ',
+          address: 'вул. Сагайдачного, 5, Київ, 04070',
+          phone: '+380442345678',
+          hours: {
+            mon: { open: '08:00', close: '21:00', closed: false },
+            tue: { open: '08:00', close: '21:00', closed: false },
+            wed: { open: '08:00', close: '21:00', closed: false },
+            thu: { open: '08:00', close: '21:00', closed: false },
+            fri: { open: '08:00', close: '22:00', closed: false },
+            sat: { open: '09:00', close: '22:00', closed: false },
+            sun: { open: '00:00', close: '00:00', closed: true }
+          },
+          socials: {
+            facebook: 'https://facebook.com/robot.podil',
+            instagram: 'https://instagram.com/robot_podil'
+          },
+          delivery_settings: [
+            { method: 'pickup', enabled: true, delivery_fee: 0 },
+            { method: 'courier', enabled: true, delivery_fee: 40 }
+          ],
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      ];
+      
+      return {
+        data: mockLocations,
+        success: true
+      };
+    }
+    
     return this.request<Location[]>('/locations');
   }
 
@@ -239,6 +305,158 @@ class RobotApiClient {
   async signUpload(): Promise<ApiResponse<CloudinarySignResponse>> {
     return this.request<CloudinarySignResponse>('/media/sign-upload', {
       method: 'POST',
+    });
+  }
+
+  // Orders
+  async getOrders(filters?: OrdersFilters): Promise<ApiResponse<Order[]>> {
+    // For testing purposes, return mock data if test_mode is enabled
+    if (typeof window !== 'undefined' && window.location.search.includes('test_mode=true')) {
+      const mockOrders: Order[] = [
+        {
+          id: 'order-001',
+          tenant_id: 'test-tenant',
+          source: 'resto',
+          status: 'нове',
+          payment_status: 'неоплачено',
+          total_amount: 250.50,
+          order_time: new Date().toISOString(),
+          delivery_type: 'доставка',
+          customer: {
+            name: 'Іван Петренко',
+            phone: '+380501234567',
+            address: 'вул. Хрещатик, 1, Київ'
+          },
+          items: [
+            {
+              item_id: 'item-001',
+              item_name: { ua: 'Борщ український', pl: 'Barszcz ukraiński', en: 'Ukrainian Borscht', by: 'Украінскі борш' },
+              quantity: 2,
+              price: 85.00,
+              total: 170.00
+            },
+            {
+              item_id: 'item-002',
+              item_name: { ua: 'Вареники з картоплею', pl: 'Pierogi z ziemniakami', en: 'Potato Dumplings', by: 'Вареннікі з бульбай' },
+              quantity: 1,
+              price: 80.50,
+              total: 80.50
+            }
+          ],
+          delivery_info: {
+            address: 'вул. Хрещатик, 1, Київ',
+            phone: '+380501234567',
+            delivery_time: '18:30',
+            notes: 'Дзвонити за 10 хвилин до прибуття'
+          },
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        },
+        {
+          id: 'order-002',
+          tenant_id: 'test-tenant',
+          source: 'telegram',
+          status: 'у реалізації',
+          payment_status: 'оплачено',
+          total_amount: 180.00,
+          order_time: new Date(Date.now() - 3600000).toISOString(),
+          delivery_type: 'особистий відбір',
+          customer: {
+            name: 'Марія Коваленко',
+            phone: '+380671234567'
+          },
+          items: [
+            {
+              item_id: 'item-003',
+              item_name: { ua: 'Котлета по-київськи', pl: 'Kotlet kijowski', en: 'Chicken Kiev', by: 'Кацлета па-кіеўску' },
+              quantity: 1,
+              price: 120.00,
+              total: 120.00
+            },
+            {
+              item_id: 'item-004',
+              item_name: { ua: 'Салат Цезар', pl: 'Sałatka Cezar', en: 'Caesar Salad', by: 'Салата Цэзар' },
+              quantity: 1,
+              price: 60.00,
+              total: 60.00
+            }
+          ],
+          created_at: new Date(Date.now() - 3600000).toISOString(),
+          updated_at: new Date().toISOString()
+        },
+        {
+          id: 'order-003',
+          tenant_id: 'test-tenant',
+          source: 'glovo',
+          status: 'виконано',
+          payment_status: 'оплачено',
+          total_amount: 95.00,
+          order_time: new Date(Date.now() - 7200000).toISOString(),
+          delivery_type: 'доставка',
+          customer: {
+            name: 'Олександр Сидоренко',
+            phone: '+380931234567',
+            address: 'вул. Шевченка, 15, Київ'
+          },
+          items: [
+            {
+              item_id: 'item-005',
+              item_name: { ua: 'Піца Маргарита', pl: 'Pizza Margherita', en: 'Margherita Pizza', by: 'Піца Маргарыта' },
+              quantity: 1,
+              price: 95.00,
+              total: 95.00
+            }
+          ],
+          delivery_info: {
+            address: 'вул. Шевченка, 15, Київ',
+            phone: '+380931234567',
+            delivery_time: '17:45'
+          },
+          created_at: new Date(Date.now() - 7200000).toISOString(),
+          updated_at: new Date(Date.now() - 3600000).toISOString()
+        }
+      ];
+      
+      // Apply filters if provided
+      let filteredOrders = mockOrders;
+      if (filters?.status) {
+        filteredOrders = filteredOrders.filter(order => order.status === filters.status);
+      }
+      if (filters?.source) {
+        filteredOrders = filteredOrders.filter(order => order.source === filters.source);
+      }
+      
+      return {
+        data: filteredOrders,
+        success: true
+      };
+    }
+    
+    const query = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value) query.append(key, value);
+      });
+    }
+    const queryString = query.toString() ? `?${query.toString()}` : '';
+    return this.request<Order[]>(`/orders${queryString}`);
+  }
+
+  async getOrder(id: string): Promise<ApiResponse<Order>> {
+    return this.request<Order>(`/orders/${id}`);
+  }
+
+  async createOrder(data: CreateOrderRequest): Promise<ApiResponse<Order>> {
+    return this.request<Order>('/orders', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateOrderStatus(id: string, data: UpdateOrderStatusRequest): Promise<ApiResponse<Order>> {
+    return this.request<Order>(`/orders/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
     });
   }
 

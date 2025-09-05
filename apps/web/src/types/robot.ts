@@ -97,6 +97,37 @@ export interface MediaAsset {
   created_at: string;
 }
 
+export interface Order {
+  id: string;
+  tenant_id: string;
+  source: 'resto' | 'telegram' | 'glovo' | 'bolt' | 'wolt' | 'custom';
+  status: 'нове' | 'у реалізації' | 'виконано';
+  payment_status: 'оплачено' | 'неоплачено';
+  total_amount: number;
+  order_time: string;
+  delivery_type: 'доставка' | 'особистий відбір';
+  customer: {
+    name?: string;
+    phone?: string;
+    address?: string;
+  };
+  items: Array<{
+    item_id: string;
+    item_name: I18nStr;
+    quantity: number;
+    price: number;
+    total: number;
+  }>;
+  delivery_info?: {
+    address?: string;
+    phone?: string;
+    delivery_time?: string;
+    notes?: string;
+  };
+  created_at: string;
+  updated_at: string;
+}
+
 // Telegram Login Widget Types
 export interface TelegramUser {
   id: number;
@@ -177,6 +208,26 @@ export interface CloudinarySignResponse {
   cloud_name: string;
   folder: string;
   public_id?: string;
+}
+
+export interface CreateOrderRequest {
+  source: Order['source'];
+  customer: Order['customer'];
+  items: Order['items'];
+  delivery_type: Order['delivery_type'];
+  delivery_info?: Order['delivery_info'];
+  payment_status?: Order['payment_status'];
+}
+
+export interface UpdateOrderStatusRequest {
+  status: Order['status'];
+}
+
+export interface OrdersFilters {
+  status?: Order['status'];
+  source?: Order['source'];
+  date_from?: string;
+  date_to?: string;
 }
 
 // API Error Types

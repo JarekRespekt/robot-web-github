@@ -81,6 +81,13 @@ body {
   background-color: #CB5544 !important;
 }
 
-[role="switch"][data-state="checked"] [data-state="checked"] {
-  background-color: #CB5544 !important;
+[role="switch"][data-state="unchecked"] {
+  background-color: #9CA3AF !important; /* Gray-400 for disabled state */
+}
+
+/* White thumb/circle for all switch states */
+[role="switch"] span[data-state="checked"],
+[role="switch"] span[data-state="unchecked"] {
+  background-color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }

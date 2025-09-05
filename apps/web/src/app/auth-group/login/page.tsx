@@ -34,7 +34,7 @@ export default function LoginPage() {
             
             <div>
               <CardTitle className="text-2xl font-bold text-ink">
-                ROBOT Admin
+                R...OBOT Admin
               </CardTitle>
               <CardDescription className="mt-2">
                 Увійдіть до адміністративної панелі ресторану
