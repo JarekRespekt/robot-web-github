@@ -416,8 +416,6 @@ export function OrdersTable() {
           </DialogContent>
         </Dialog>
       )}
-        </div>
-      )}
     </div>
   );
 }
